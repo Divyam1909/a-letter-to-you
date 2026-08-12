@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Letter to You</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            /* Coffee-tinted paper base color */
+            background-color: #eaddcf;
+            background-image: 
+                radial-gradient(circle at center, transparent 0%, rgba(101, 67, 33, 0.15) 100%),
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+            background-attachment: fixed;
+            color: #3e2723;
+            overflow-x: hidden;
+        }
+
+        .font-poem {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-handwriting {
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Line-by-line reveal animation */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: opacity, transform;
+        }
+
+        .reveal-element.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Floating hearts container and animation */
+        .heart-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-heart {
+            position: absolute;
+            bottom: -50px;
+            opacity: 0;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.8) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.5; }
+            80% { opacity: 0.5; }
+            100% { transform: translateY(-110vh) scale(1.2) rotate(20deg); opacity: 0; }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #eaddcf; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #bcaaa4; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #8d6e63; 
+        }
+        
+        /* Heart pulse animation for top corner */
+        .heart-pulse {
+            animation: pulseHeart 2s ease-in-out infinite;
+        }
+        @keyframes pulseHeart {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen antialiased selection:bg-amber-900 selection:text-amber-50">
+    
+    <!-- Background layer for animated hearts -->
+    <div id="heart-container" class="heart-container"></div>
+
+    <!-- Single Red Heart Top Left -->
+    <div class="fixed top-6 left-6 md:top-8 md:left-8 z-20 pointer-events-none heart-pulse text-red-500/80">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+    </div>
+
+    <!-- Main container mimicking a letter page, positioned above hearts -->
+    <main class="relative z-10 max-w-3xl mx-auto px-6 py-24 md:py-32 md:px-12 flex flex-col items-center justify-center font-poem">
+        
+        <div class="h-10 md:h-12 w-full"></div>
+
+        <!-- Decorative Floral Divider Top -->
+        <div class="reveal-element mb-16 opacity-70">
+            <svg width="120" height="30" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 15 H50 M70 15 H110" stroke="#8d6e63" stroke-width="1" stroke-dasharray="3 3"/>
+                <path d="M60 8 C63 2, 67 2, 70 8 C75 10, 75 15, 70 17 C67 23, 63 23, 60 17 C55 15, 55 10, 60 8 Z" fill="#bcaaa4"/>
+            </svg>
+        </div>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">You know how me meet some people and simply forget,</span>
+            <span class="block reveal-element mb-1">Then there are those you meet and somehow never regret,</span>
+            <span class="block reveal-element mb-1">I never expected a stranger I met, to become this close to me,</span>
+            <span class="block reveal-element">Yet somehow, in barely two months, you became the person I long to see.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">I still remember those first conversations we shared,</span>
+            <span class="block reveal-element mb-1">Little pieces of our lives, quietly revealed and compared,</span>
+            <span class="block reveal-element mb-1">I never knew that somewhere between a hello and goodnight,</span>
+            <span class="block reveal-element">A certain girl would slowly make my ordinary world feel right.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">You arrived without warning, without some grand design,</span>
+            <span class="block reveal-element mb-1">And somehow your little world began becoming part of mine,</span>
+            <span class="block reveal-element mb-1">What started with messages became something I could feel,</span>
+            <span class="block reveal-element">A connection so effortless, I sometimes wonder if it's the real deal.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">They say beautiful things are meant to be seen,</span>
+            <span class="block reveal-element mb-1">In paintings, in sunsets, and in places untouched and serene,</span>
+            <span class="block reveal-element mb-1">But now beauty, to me, is no longer somewhere far away,</span>
+            <span class="block reveal-element">It has your eyes, your smile, and the little things that you say.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">Your eyes have a way of making silence feel complete,</span>
+            <span class="block reveal-element mb-1">Like every restless thought in me suddenly finds its seat,</span>
+            <span class="block reveal-element mb-1">And when you smile, there is something I cannot explain,</span>
+            <span class="block reveal-element">Like sunlight somehow learning to fall as a gentle rain.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">You have this way of thinking about the smallest detail,</span>
+            <span class="block reveal-element mb-1">Turning every tiny thought into a story without fail,</span>
+            <span class="block reveal-element mb-1">Sometimes you overthink what the moment might mean,</span>
+            <span class="block reveal-element">Yet somehow that thoughtful heart is one of the sweetest things I've seen.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">You know, you are a little dicey, and your choices are grey,</span>
+            <span class="block reveal-element mb-1">And I might not always know, what you want to say,</span>
+            <span class="block reveal-element mb-1">But perhaps that is one reason your heart feels so rare,</span>
+            <span class="block reveal-element">Because you never choose carelessly, you choose because you care.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">My fav part is when you sing, and the whole world seems to slow,</span>
+            <span class="block reveal-element mb-1">As though even the quietest corners want to hear your glow,</span>
+            <span class="block reveal-element mb-1">If the heavens ever needed a voice to sing beneath its blue,</span>
+            <span class="block reveal-element">I think it would want to borrow a little melody from you.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">There is something beautiful in the kindness that you show,</span>
+            <span class="block reveal-element mb-1">The way your softer side appears without needing me to know,</span>
+            <span class="block reveal-element mb-1">You make room for little lives, for every creature and every hue,</span>
+            <span class="block reveal-element">And somehow that gentle part of you makes me admire you more than I knew.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">Perhaps flowers remind me of you for reasons I cannot explain,</span>
+            <span class="block reveal-element mb-1">For every bloom holds a beauty, but yours feels different all the same,</span>
+            <span class="block reveal-element mb-1">Carnations, tulips, lilies, each can brighten any view,</span>
+            <span class="block reveal-element">But if beauty had a name, I think it would sound like you.</span>
+        </p>
+
+        <!-- Decorative subtle flower to mark a transition -->
+        <div class="reveal-element mb-16 opacity-60">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#a98467" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22v-7" />
+                <path d="M12 15c-2.5 0-4-2-4-4s1.5-4 4-4 4 2 4 4-1.5 4-4 4z" />
+                <path d="M8 11c-1.5 0-3-1-3-2.5S6.5 6 8 6" />
+                <path d="M16 11c1.5 0 3-1 3-2.5S17.5 6 16 6" />
+                <path d="M12 7V4" />
+                <path d="M10 20s1-1 2-1 2 1 2 1" />
+            </svg>
+        </div>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">They call the carnation the flower of gods, adorned in sacred grace,</span>
+            <span class="block reveal-element mb-1">And I can almost understand it when I look upon your face,</span>
+            <span class="block reveal-element mb-1">Its petals hold a softness, its colours warm and bright,</span>
+            <span class="block reveal-element">Yet somehow you carry all of that, with much more in sight.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">Yellow like the sunlight dancing softly through the trees,</span>
+            <span class="block reveal-element mb-1">Pink like a feeling carried gently on the breeze,</span>
+            <span class="block reveal-element mb-1">Green like the peaceful little world I find when I’m with you,</span>
+            <span class="block reveal-element">Perhaps that is why these colours feel so perfectly true.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">Maybe it’s momos on a street beneath the evening glow,</span>
+            <span class="block reveal-element mb-1">Or pani puri while we laugh and have nowhere else to go,</span>
+            <span class="block reveal-element mb-1">Maybe pizza, maybe pasta, maybe something entirely new,</span>
+            <span class="block reveal-element">Truth is, I’d probably enjoy it all, as long as I’m there with you.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">There is something about the songs you love that stays in my head,</span>
+            <span class="block reveal-element mb-1">Like little pieces of you hiding inside every word that is said,</span>
+            <span class="block reveal-element mb-1">From Strawberries and Cigarettes to Heavenly Kind of State of Mind,</span>
+            <span class="block reveal-element">Each one somehow leaves another little picture of you behind.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">You love Spider-Man, the one who keeps reaching for the sky,</span>
+            <span class="block reveal-element mb-1">The one who falls, gets back up, and still chooses to try,</span>
+            <span class="block reveal-element mb-1">Perhaps that is why it feels fitting, somehow, to see you that way,</span>
+            <span class="block reveal-element">A little extraordinary soul making ordinary moments brighter every day.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">And now there have been two dates, with another waiting somewhere ahead,</span>
+            <span class="block reveal-element mb-1">Another little chapter that neither of us has completely read,</span>
+            <span class="block reveal-element mb-1">Yet somehow I already find myself hoping, quietly, that there is more,</span>
+            <span class="block reveal-element">Because every time I leave you, I find myself wanting another door.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">I call you S because one letter somehow says your name,</span>
+            <span class="block reveal-element mb-1">And princess sometimes, because honestly, you earned that frame,</span>
+            <span class="block reveal-element mb-1">You call me honey, and I pretend that it does not make me smile,</span>
+            <span class="block reveal-element">But I keep those little words with me long after every mile.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">Maybe love is not always lightning, dramatic and bright,</span>
+            <span class="block reveal-element mb-1">Maybe sometimes it is simply feeling at home on an ordinary night,</span>
+            <span class="block reveal-element mb-1">Maybe it is laughing at nothing until the hours disappear,</span>
+            <span class="block reveal-element">And slowly realizing there is one person you always want near.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">I wish the distance between us were only a little less,</span>
+            <span class="block reveal-element mb-1">So seeing you could happen without waiting, without a guess,</span>
+            <span class="block reveal-element mb-1">For when a week or two passes before I see you again,</span>
+            <span class="block reveal-element">I find myself wishing you lived just a little closer than you do then.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">Maybe it is knowing someone's chaos and still choosing to stay,</span>
+            <span class="block reveal-element mb-1">Knowing every little habit and loving them anyway,</span>
+            <span class="block reveal-element mb-1">Knowing she may overthink, hesitate, sleep late, and take her time,</span>
+            <span class="block reveal-element">And still thinking every imperfect part somehow fits perfectly with mine.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">So I have compared you to flowers, to sunsets, to the sea,</span>
+            <span class="block reveal-element mb-1">To stars and songs and every beautiful thing I could see,</span>
+            <span class="block reveal-element mb-1">But every metaphor eventually feels too small to hold true,</span>
+            <span class="block reveal-element">Because the more I try to describe beauty, the more it leads me to you.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">So before I compare you to another star in the night,</span>
+            <span class="block reveal-element mb-1">Before I call you my moon or my sunrise light,</span>
+            <span class="block reveal-element mb-1">Let me leave the universe behind and simply speak from my heart,</span>
+            <span class="block reveal-element">Because perhaps the most beautiful things are the ones we never know how to start.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">Could I tell you that somewhere between every laugh and every call,</span>
+            <span class="block reveal-element mb-1">A little part of me began to hope that you might become my all?</span>
+            <span class="block reveal-element mb-1">Not because I need some perfect story written in the stars above,</span>
+            <span class="block reveal-element">I simply found myself falling, quietly and honestly, in love.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">Because every road I take somehow circles back to you,</span>
+            <span class="block reveal-element mb-1">Every little future I imagine feels warmer when you are in view,</span>
+            <span class="block reveal-element mb-1">You have become a thought that visits me before I sleep,</span>
+            <span class="block reveal-element">One I find myself holding onto, one I find myself wanting to keep.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">Under all the teasing, the coffee, the songs, the dates we have made,</span>
+            <span class="block reveal-element mb-1">Rests one simple feeling that time has only deepened, never swayed,</span>
+            <span class="block reveal-element mb-1">Beyond every flower, every colour, every beautiful view,</span>
+            <span class="block reveal-element">One truth keeps growing quietly, it's that I really, really like you.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">You are the girl I want beside me when ordinary days unfold,</span>
+            <span class="block reveal-element mb-1">For all the little stories we have yet to write and memories yet to hold,</span>
+            <span class="block reveal-element mb-1">Rather than promise perfection, I would promise to choose you true,</span>
+            <span class="block reveal-element">In every silly, beautiful, complicated moment we stumble through.</span>
+        </p>
+
+        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
+            <span class="block reveal-element mb-1">Every word before this was simply my heart finding its way,</span>
+            <span class="block reveal-element mb-1">Now there is only one thing I have been wanting to say,</span>
+            <span class="block reveal-element mb-1">Do you think there’s a chance our story could become something new?</span>
+            <span class="block reveal-element">The future is unknown, but could I make a little forever with you?</span>
+        </p>
+        
+        <!-- Divider to transition to the final message -->
+        <div class="reveal-element w-full max-w-xs mx-auto my-20 flex items-center justify-center opacity-70">
+            <div class="h-px bg-amber-900/40 flex-grow"></div>
+            <svg class="mx-4 w-6 h-6 text-amber-800" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            <div class="h-px bg-amber-900/40 flex-grow"></div>
+        </div>
+
+        <!-- Final Message Placeholder -->
+        <div class="reveal-element w-full max-w-2xl mt-4 mb-32 flex flex-col items-center">
+            <p class="font-handwriting text-3xl md:text-4xl lg:text-5xl text-amber-900 leading-snug md:leading-relaxed text-center rotate-[-1deg]">
+                <!-- REPLACE THE TEXT BELOW WITH YOUR FINAL MESSAGE -->
+                "Your final handwritten message goes right here, taking up as much space as you need..."
+                <br><br>
+                <span class="text-2xl md:text-3xl block mt-4 text-right pr-12">- S</span>
+            </p>
+        </div>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Setup Intersection Observer for line-by-line reveal
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -10% 0px', // Triggers when line is 10% from bottom of screen
+                threshold: 0.1 
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        // Small timeout helps sequence items that appear on screen simultaneously
+                        setTimeout(() => {
+                            entry.target.classList.add('is-visible');
+                        }, 50); 
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe every individual line
+            const revealElements = document.querySelectorAll('.reveal-element');
+            revealElements.forEach((el) => {
+                observer.observe(el);
+            });
+
+            // Logic to create subtle floating hearts in the background
+            const heartContainer = document.getElementById('heart-container');
+            const heartColors = ['#d4a373', '#bc6c25', '#dda15e', '#bcaaa4'];
+
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                
+                // SVG Heart
+                const color = heartColors[Math.floor(Math.random() * heartColors.length)];
+                heart.innerHTML = `<svg viewBox="0 0 24 24" fill="${color}" class="w-5 h-5 md:w-6 md:h-6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+                
+                // Randomize positions, durations and sizes to look natural
+                const leftPos = Math.random() * 100; // 0 to 100vw
+                const animDuration = Math.random() * 8 + 10; // 10 to 18 seconds
+                const sizeScale = Math.random() * 1.5 + 0.5; // 0.5 to 2.0 scale
+
+                heart.style.left = `${leftPos}vw`;
+                heart.style.animationDuration = `${animDuration}s`;
+                heart.style.transform = `scale(${sizeScale})`;
+                
+                heartContainer.appendChild(heart);
+
+                // Cleanup heart after animation completes to keep DOM light
+                setTimeout(() => {
+                    heart.remove();
+                }, animDuration * 1000);
+            }
+
+            // Create hearts periodically
+            setInterval(createHeart, 1200);
+            
+            // Create a few hearts instantly so the screen isn't empty initially
+            for(let i=0; i<4; i++) {
+                setTimeout(createHeart, i * 300);
+            }
+        });
+    </script>
+</body>
+</html>
