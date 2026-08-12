@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/a_letter_to_her.html"
+    }
+  ]
+}
