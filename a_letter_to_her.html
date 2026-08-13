@@ -3,51 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#eaddcf">
     <title>A Letter to You</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <meta name="description" content="Something I wanted to tell you. Read slowly.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="A Letter to You">
+    <meta property="og:description" content="Something I wanted to tell you. Read slowly.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="A Letter to You">
+    <meta name="twitter:description" content="Something I wanted to tell you. Read slowly.">
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%236f4527' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-    
+
     <style>
+        /* ============================================================
+           Design tokens
+           ============================================================ */
+        :root {
+            color-scheme: light;
+
+            --paper: #eaddcf;
+            --paper-card: #f4e9da;
+            --ink: #3e2723;
+            --ink-soft: #5d4037;
+            --ink-faint: #6d4c41;
+            --accent: #6f4527;
+            --accent-strong: #4a2f18;
+            --on-accent: #fdf6ee;
+            --rule: rgba(62, 39, 35, 0.35);
+            --card-border: rgba(141, 110, 99, 0.35);
+            --focus-ring: #a8632f;
+            --heart-red: rgba(196, 46, 46, 0.85);
+
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            --space-32: 8rem;
+
+            --text-sm: clamp(0.8125rem, 0.78rem + 0.16vw, 0.9375rem);
+            --text-base: clamp(0.9375rem, 0.9rem + 0.18vw, 1.0625rem);
+            --text-poem: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
+            --text-lg: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+            --text-xl: clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem);
+            --text-2xl: clamp(1.375rem, 1.25rem + 0.6vw, 1.625rem);
+            --text-3xl: clamp(1.625rem, 1.4rem + 1vw, 2rem);
+            --text-4xl: clamp(1.875rem, 1.55rem + 1.5vw, 2.375rem);
+
+            --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* ============================================================
+           Base
+           ============================================================ */
+        *, *::before, *::after { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            /* Coffee-tinted paper base color */
-            background-color: #eaddcf;
-            background-image: 
+            margin: 0;
+            min-height: 100vh;
+            background-color: var(--paper);
+            background-image:
                 radial-gradient(circle at center, transparent 0%, rgba(101, 67, 33, 0.15) 100%),
                 url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
             background-attachment: fixed;
-            color: #3e2723;
+            color: var(--ink);
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
         }
 
-        .font-poem {
-            font-family: 'Playfair Display', serif;
+        ::selection { background: var(--accent-strong); color: var(--on-accent); }
+
+        .font-poem { font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; }
+        .font-hand { font-family: 'Caveat', 'Segoe Script', cursive; }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px; height: 1px;
+            padding: 0; margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
 
-        .font-handwriting {
-            font-family: 'Caveat', cursive;
+        :focus-visible {
+            outline: 2px solid var(--focus-ring);
+            outline-offset: 3px;
+            border-radius: 4px;
         }
 
-        /* Line-by-line reveal animation */
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--paper); }
+        ::-webkit-scrollbar-thumb { background: #bcaaa4; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #8d6e63; }
+
+        /* ============================================================
+           Buttons
+           ============================================================ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4em;
+            border: none;
+            border-radius: 999px;
+            padding: 0.7em 1.7em;
+            font-size: var(--text-lg);
+            line-height: 1.2;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(62, 39, 35, 0.18);
+            transition: background-color 0.25s ease, transform 0.15s ease, opacity 0.5s ease;
+        }
+        .btn:active { transform: translateY(1px); }
+
+        .btn-primary { background: var(--accent); color: var(--on-accent); }
+        .btn-primary:hover { background: var(--accent-strong); }
+
+        .btn-secondary { background: rgba(253, 246, 238, 0.95); color: var(--ink-soft); }
+        .btn-secondary:hover { background: #fff; }
+
+        .btn-on-dark { backdrop-filter: blur(4px); }
+
+        .btn-small { font-size: var(--text-base); padding: 0.6em 1.4em; }
+
+        .fade-target {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+        }
+        .fade-target.is-shown { opacity: 1; pointer-events: auto; }
+
+        /* ============================================================
+           Line-by-line reveal animation
+           ============================================================ */
         .reveal-element {
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-                        transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: opacity 1s var(--ease-smooth), transform 1s var(--ease-smooth);
             will-change: opacity, transform;
         }
+        .reveal-element.is-visible { opacity: 1; transform: translateY(0); }
 
-        .reveal-element.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Floating hearts container and animation */
+        /* ============================================================
+           Floating hearts
+           ============================================================ */
         .heart-container {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            inset: 0;
             pointer-events: none;
             z-index: 0;
         }
@@ -59,6 +181,8 @@
             animation: floatUp linear infinite;
         }
 
+        .heart-icon { display: block; }
+
         @keyframes floatUp {
             0% { transform: translateY(0) scale(0.8) rotate(0deg); opacity: 0; }
             10% { opacity: 0.5; }
@@ -66,78 +190,105 @@
             100% { transform: translateY(-110vh) scale(1.2) rotate(20deg); opacity: 0; }
         }
 
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #eaddcf; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #bcaaa4; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #8d6e63; 
-        }
-        
-        /* Heart pulse animation for top corner */
-        .heart-pulse {
-            animation: pulseHeart 2s ease-in-out infinite;
+        .corner-heart {
+            position: fixed;
+            top: clamp(1.25rem, 4vw, 2rem);
+            left: clamp(1.25rem, 4vw, 2rem);
+            z-index: 20;
+            pointer-events: none;
+            color: var(--heart-red);
+            animation: pulseHeart 2.2s ease-in-out infinite;
         }
         @keyframes pulseHeart {
-            0% { transform: scale(1); }
+            0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
         }
 
-        /* Acrostic reveal mechanics */
+        /* ============================================================
+           Acrostic reveal mechanics
+           ============================================================ */
         .acrostic-source-letter {
             display: inline-block;
             transition: opacity 0.3s ease;
         }
-        .acrostic-source-letter.is-flying {
-            opacity: 0.15;
-        }
+        .acrostic-source-letter.is-flying { opacity: 0.15; }
 
         .target-letter {
             display: inline-block;
             opacity: 0;
-            transition: opacity 0.35s ease;
+            transition: opacity 0.4s ease;
         }
-        .target-letter.landed {
-            opacity: 1;
-        }
+        .target-letter.landed { opacity: 1; }
 
         .flying-letter-clone {
             position: fixed;
+            top: 0;
+            left: 0;
             z-index: 60;
             pointer-events: none;
-            transition: left 0.8s cubic-bezier(0.65, 0, 0.35, 1),
-                        top 0.8s cubic-bezier(0.65, 0, 0.35, 1),
+            transform: translate(0, 0) scale(1);
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1),
                         font-size 0.8s ease,
-                        color 0.8s ease,
-                        transform 0.8s ease;
-            will-change: left, top, transform, font-size, color;
+                        color 0.8s ease;
+            will-change: transform;
         }
 
-        #acrostic-overlay.is-active {
-            opacity: 1 !important;
-            pointer-events: auto !important;
+        #acrostic-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(62, 39, 35, 0.35);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease, background-color 0.8s ease;
         }
-        #acrostic-card.is-active {
-            transform: scale(1) !important;
-        }
+        #acrostic-overlay.is-active { opacity: 1; pointer-events: auto; }
+        #acrostic-overlay.is-final { background: rgba(62, 39, 35, 0.62); }
 
-        /* ============================================
+        #acrostic-card {
+            position: relative;
+            background: var(--paper-card);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(62, 39, 35, 0.35);
+            padding: clamp(2rem, 6vw, 3.5rem);
+            max-width: 32rem;
+            width: 88%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transform: scale(0.94);
+            opacity: 0.9;
+            transition: transform 0.6s var(--ease-smooth), opacity 0.6s ease;
+        }
+        #acrostic-overlay.is-final #acrostic-card { transform: scale(1); opacity: 1; }
+
+        .acrostic-text {
+            font-size: var(--text-3xl);
+            line-height: 1.6;
+            letter-spacing: 0.02em;
+            margin: 0;
+            display: inline-flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0.35em 0.6em;
+        }
+        .acrostic-word { display: inline-flex; }
+
+        /* ============================================================
            Camera Intro Overlay
-           ============================================ */
+           ============================================================ */
         #camera-intro {
             position: fixed;
             inset: 0;
             z-index: 100;
-            background-color: #eaddcf;
-            background-image: 
+            background-color: var(--paper);
+            background-image:
                 radial-gradient(circle at center, transparent 0%, rgba(101, 67, 33, 0.15) 100%),
                 url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
             display: flex;
@@ -146,20 +297,38 @@
         }
 
         .permission-card {
-            background: #f4e9da;
-            border: 1px solid rgba(141, 110, 99, 0.3);
+            background: var(--paper-card);
+            border: 1px solid var(--card-border);
             border-radius: 16px;
             box-shadow: 0 25px 50px -12px rgba(62, 39, 35, 0.25);
             padding: 2.5rem 2rem;
             max-width: 420px;
             width: 88%;
             text-align: center;
-            animation: cardAppear 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            animation: cardAppear 0.6s var(--ease-smooth);
         }
-
         @keyframes cardAppear {
             from { opacity: 0; transform: translateY(30px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .permission-heading {
+            font-size: var(--text-3xl);
+            color: var(--ink);
+            margin: 0 0 var(--space-5);
+        }
+        .permission-text {
+            font-size: var(--text-lg);
+            color: var(--ink-soft);
+            line-height: 1.6;
+            margin: 0 0 var(--space-3);
+        }
+        .permission-text--aside { color: var(--ink-faint); margin-bottom: var(--space-6); }
+        .permission-hint {
+            font-size: var(--text-sm);
+            color: var(--ink-faint);
+            margin: 0 0 var(--space-6);
+            line-height: 1.5;
         }
 
         .camera-view {
@@ -168,7 +337,6 @@
             background: #1a1a1a;
             overflow: hidden;
         }
-
         .camera-view::after {
             content: '';
             position: absolute;
@@ -192,6 +360,9 @@
             transform: translateX(-50%);
             white-space: nowrap;
             z-index: 2;
+            font-size: var(--text-2xl);
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.4);
         }
 
         .capture-btn {
@@ -209,13 +380,10 @@
             transition: transform 0.2s ease, background 0.2s ease;
             z-index: 2;
         }
-
-        .capture-btn:hover,
-        .capture-btn:active {
+        .capture-btn:hover, .capture-btn:active {
             transform: translateX(-50%) scale(1.1);
             background: rgba(141, 110, 99, 0.8);
         }
-
         .capture-btn::after {
             content: '';
             position: absolute;
@@ -232,11 +400,7 @@
             pointer-events: none;
             z-index: 3;
         }
-
-        .capture-flash.flash {
-            animation: flashAnim 0.4s ease-out;
-        }
-
+        .capture-flash.flash { animation: flashAnim 0.4s ease-out; }
         @keyframes flashAnim {
             0% { opacity: 0.85; }
             100% { opacity: 0; }
@@ -248,13 +412,11 @@
             background: #1a1a1a;
             overflow: hidden;
         }
-
         .review-photo {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         .review-buttons {
             position: absolute;
             bottom: 40px;
@@ -264,31 +426,35 @@
             gap: 16px;
             z-index: 2;
         }
+        .review-buttons .btn-primary { background: rgba(111, 69, 39, 0.92); }
+        .review-buttons .btn-primary:hover { background: rgba(74, 47, 24, 0.95); }
+        .review-buttons .btn-secondary { background: rgba(253, 246, 238, 0.9); }
 
-        /* Photo zoom-out animation */
+        /* Photo zoom-out transition — transform + opacity only (FLIP) */
         .zoom-photo {
             position: fixed;
-            z-index: 101;
-            object-fit: cover;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
+            object-fit: cover;
             border-radius: 0;
-            transition: top 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        left 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        width 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        height 2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        border-radius 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+            transform-origin: top left;
+            z-index: 101;
+            transition: transform 1.6s cubic-bezier(0.65, 0, 0.35, 1),
+                        border-radius 1.3s ease,
                         opacity 0.5s ease;
+            will-change: transform;
         }
 
-        /* Dream Bubble Section */
+        /* ============================================================
+           Dream Bubble Section
+           ============================================================ */
         .dream-bubble-section {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 3rem;
+            margin-bottom: var(--space-12);
         }
 
         .dream-illustration {
@@ -298,7 +464,6 @@
             align-items: center;
         }
 
-        /* The cloud dream bubble */
         .dream-cloud-bubble {
             position: relative;
             width: 180px;
@@ -307,8 +472,8 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 8px;
+            animation: gentleFloat 4s ease-in-out infinite;
         }
-
         .dream-cloud-bubble .cloud-shape {
             position: absolute;
             inset: -14px;
@@ -324,10 +489,9 @@
             z-index: 1;
             border: 3px solid rgba(188, 170, 164, 0.6);
             box-shadow: 0 4px 24px rgba(62, 39, 35, 0.15);
-            background-color: #f4e9da;
+            background-color: var(--paper-card);
         }
 
-        /* Thought bubble dots connecting cloud to person */
         .thought-dots {
             display: flex;
             flex-direction: column;
@@ -337,7 +501,6 @@
             margin-top: -4px;
             margin-bottom: 2px;
         }
-
         .thought-dot {
             border-radius: 50%;
             background: #d7ccc8;
@@ -350,10 +513,14 @@
             opacity: 0.75;
             filter: sepia(0.3) saturate(0.8);
         }
+        .person-svg-container svg { width: 100%; height: auto; }
 
-        .person-svg-container svg {
-            width: 100%;
-            height: auto;
+        .dream-caption {
+            font-size: var(--text-xl);
+            color: var(--ink-soft);
+            margin-top: var(--space-3);
+            text-align: center;
+            opacity: 0.85;
         }
 
         @keyframes gentleFloat {
@@ -361,26 +528,132 @@
             50% { transform: translateY(-6px); }
         }
 
-        .dream-cloud-bubble {
-            animation: gentleFloat 4s ease-in-out infinite;
+        /* ============================================================
+           Letter layout
+           ============================================================ */
+        .letter {
+            position: relative;
+            z-index: 10;
+            max-width: 46rem;
+            margin: 0 auto;
+            padding: clamp(4.5rem, 10vw, 7rem) 1.5rem clamp(5rem, 12vw, 8rem);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .divider-top {
+            margin-bottom: var(--space-16);
+            opacity: 0.7;
+        }
+        .divider-flower {
+            margin-bottom: var(--space-16);
+            opacity: 0.6;
+        }
+        .spacer { width: 100%; height: clamp(2.5rem, 5vw, 3rem); }
+
+        .stanza {
+            font-size: var(--text-poem);
+            line-height: 1.75;
+            text-align: center;
+            text-wrap: balance;
+            max-width: 34rem;
+            width: 100%;
+            margin: 0 auto var(--space-16);
+        }
+        .stanza-line { display: block; }
+        .stanza-line + .stanza-line { margin-top: 0.3em; }
+
+        .divider {
+            width: 100%;
+            max-width: 20rem;
+            margin: var(--space-20) auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-4);
+            opacity: 0.7;
+        }
+        .divider .rule { height: 1px; background: var(--rule); flex-grow: 1; }
+        .divider svg { width: 1.5rem; height: 1.5rem; color: var(--accent); }
+
+        /* ============================================================
+           Closing message
+           ============================================================ */
+        .closing {
+            width: 100%;
+            max-width: 36rem;
+            margin-top: var(--space-4);
+            margin-bottom: var(--space-32);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .closing-text {
+            font-size: var(--text-lg);
+            line-height: 1.8;
+            color: var(--ink);
+            text-align: center;
+            margin: 0;
+        }
+        .closing-signature {
+            font-family: 'Caveat', cursive;
+            font-size: var(--text-2xl);
+            display: block;
+            margin-top: var(--space-8);
+            text-align: right;
+            padding-right: var(--space-8);
+        }
+        .reveal-btn-wrap { display: block; margin-top: var(--space-8); }
+
+        /* ============================================================
+           Reduced motion
+           ============================================================ */
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+
+            .reveal-element {
+                transition: none;
+                opacity: 1;
+                transform: none;
+            }
+
+            .dream-cloud-bubble,
+            .corner-heart {
+                animation: none;
+            }
+
+            .permission-card { animation: none; }
+
+            .zoom-photo { transition: opacity 0.4s ease; }
+
+            #acrostic-overlay,
+            #acrostic-card {
+                transition: opacity 0.4s ease;
+            }
+            #acrostic-card { transform: none; }
+
+            .target-letter { transition: opacity 0.4s ease; }
+
+            .btn, .fade-target { transition: opacity 0.4s ease; }
         }
     </style>
 </head>
 
-<body class="min-h-screen antialiased selection:bg-amber-900 selection:text-amber-50">
+<body>
 
     <!-- ===== CAMERA INTRO OVERLAY ===== -->
     <div id="camera-intro">
         <!-- Step 1: Permission popup -->
         <div id="camera-step-permission" class="permission-card font-poem">
-            <p class="font-handwriting text-3xl md:text-4xl text-amber-900 mb-5">Hey you! 👋</p>
-            <p class="text-base md:text-lg text-amber-800 mb-3 leading-relaxed">
+            <p class="font-hand permission-heading">Hello S! 👋</p>
+            <p class="permission-text">
                 Before you read this, I need a tiny favor...
             </p>
-            <p class="text-base md:text-lg text-amber-800/80 mb-6 leading-relaxed italic">
-                "Don't worry, maine hi website banayi hai,<br>no privacy issues lmao 😂"
+            <p class="permission-text permission-text--aside" lang="hi-Latn">
+                (Don't worry, maine hi website banayi hai,<br>no privacy issues lmao 😂)
             </p>
-            <button id="camera-start-btn" type="button" class="text-lg text-amber-50 bg-amber-800 hover:bg-amber-900 px-7 py-2.5 rounded-full shadow-md transition-colors duration-300 cursor-pointer">
+            <button id="camera-start-btn" type="button" class="btn btn-primary">
                 Okay, let's go! 📸
             </button>
         </div>
@@ -388,59 +661,57 @@
         <!-- Step 2: Live camera -->
         <div id="camera-step-live" class="camera-view" style="display:none;">
             <video id="camera-video" class="camera-video" autoplay playsinline muted></video>
-            <p class="camera-hint font-handwriting text-2xl text-white drop-shadow-lg">Click a selfie! ✨</p>
-            <button id="capture-btn" type="button" class="capture-btn" title="Take photo"></button>
-            <div id="capture-flash" class="capture-flash"></div>
+            <p class="camera-hint font-hand">Click a selfie! ✨</p>
+            <button id="capture-btn" type="button" class="capture-btn" aria-label="Take photo"></button>
+            <div id="capture-flash" class="capture-flash" aria-hidden="true"></div>
         </div>
 
         <!-- Step 3: Review photo -->
         <div id="camera-step-review" class="review-view" style="display:none;">
             <img id="review-photo" class="review-photo" alt="Your selfie" />
             <div class="review-buttons">
-                <button id="retake-btn" type="button" class="font-poem text-base md:text-lg text-amber-800 bg-amber-50/90 hover:bg-white px-5 py-2.5 rounded-full shadow-md transition-colors duration-300 backdrop-blur-sm cursor-pointer">
+                <button id="retake-btn" type="button" class="btn btn-secondary btn-on-dark font-poem">
                     Retake 📸
                 </button>
-                <button id="continue-btn" type="button" class="font-poem text-base md:text-lg text-amber-50 bg-amber-800/90 hover:bg-amber-900 px-5 py-2.5 rounded-full shadow-md transition-colors duration-300 backdrop-blur-sm cursor-pointer">
+                <button id="continue-btn" type="button" class="btn btn-primary btn-on-dark font-poem">
                     This is perfect ✨
                 </button>
             </div>
         </div>
 
-        <!-- Step 4: Camera denied -->
-        <div id="camera-step-denied" class="permission-card font-poem" style="display:none;">
-            <p class="font-handwriting text-3xl md:text-4xl text-amber-900 mb-5">Oops! 🙈</p>
-            <p class="text-base md:text-lg text-amber-800 mb-3 leading-relaxed">
-                Camera access is needed to continue...
-            </p>
-            <p class="text-sm text-amber-700/70 mb-6">
-                Refresh the page and allow camera access to proceed.
-            </p>
-            <button onclick="location.reload()" class="text-lg text-amber-50 bg-amber-800 hover:bg-amber-900 px-7 py-2.5 rounded-full shadow-md transition-colors duration-300 cursor-pointer">
-                Refresh 🔄
+        <!-- Step 4: Camera error (denied / not found / busy / unsupported) -->
+        <div id="camera-step-error" class="permission-card font-poem" style="display:none;">
+            <p class="font-hand permission-heading" id="camera-error-title">Oops! 🙈</p>
+            <p class="permission-text" id="camera-error-body"></p>
+            <p class="permission-hint" id="camera-error-hint"></p>
+            <button id="camera-retry-btn" type="button" class="btn btn-primary">
+                Try again 🔄
             </button>
         </div>
+
+        <div id="camera-live-region" class="visually-hidden" role="status" aria-live="polite"></div>
     </div>
     <canvas id="capture-canvas" style="display:none;"></canvas>
-    
+
     <!-- Background layer for animated hearts -->
-    <div id="heart-container" class="heart-container"></div>
+    <div id="heart-container" class="heart-container" aria-hidden="true"></div>
 
     <!-- Single Red Heart Top Left -->
-    <div class="fixed top-6 left-6 md:top-8 md:left-8 z-20 pointer-events-none heart-pulse text-red-500/80">
+    <div class="corner-heart" aria-hidden="true">
         <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
         </svg>
     </div>
 
     <!-- Main container mimicking a letter page, positioned above hearts -->
-    <main id="poem-main" class="relative z-10 max-w-3xl mx-auto px-6 py-24 md:py-32 md:px-12 flex flex-col items-center justify-center font-poem" style="display:none;">
-        
+    <main id="poem-main" class="letter font-poem" style="display:none;">
+
         <!-- Dream Bubble Postcard Section -->
         <div id="dream-bubble-section" class="dream-bubble-section reveal-element">
             <div class="dream-illustration">
                 <!-- Cloud dream bubble with selfie photo -->
                 <div class="dream-cloud-bubble">
-                    <svg class="cloud-shape" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="cloud-shape" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                         <ellipse cx="110" cy="105" rx="90" ry="80" fill="#d7ccc8" opacity="0.35"/>
                         <ellipse cx="65" cy="110" rx="55" ry="50" fill="#d7ccc8" opacity="0.3"/>
                         <ellipse cx="155" cy="110" rx="55" ry="50" fill="#d7ccc8" opacity="0.3"/>
@@ -452,14 +723,14 @@
                     <img id="dream-bubble-photo" class="dream-bubble-photo" alt="" />
                 </div>
                 <!-- Thought bubble dots -->
-                <div class="thought-dots">
+                <div class="thought-dots" aria-hidden="true">
                     <div class="thought-dot" style="width:14px;height:14px;"></div>
                     <div class="thought-dot" style="width:9px;height:9px;"></div>
                     <div class="thought-dot" style="width:5px;height:5px;"></div>
                 </div>
                 <!-- Person in bed SVG -->
-                <div class="person-svg-container">
-                    <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
+                <div class="person-svg-container" aria-hidden="true">
+                    <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
                         <path d="M27.85 105.5h-19V54.94c5.08 0 14.99 4.12 14.99 4.12c2.41.89 4.01 3.18 4.01 5.75v40.69z" fill="#a65f3e"/>
                         <path d="M26.38 95.5V83.06c-2.16.11-9.13.76-10.88 2.02c-3.38 2.42-2.5 6.74-2.52 10.42h13.4z" fill="#784d30"/>
                         <path d="M121.91 105.43H12.98V58.99c0-2.24-1.82-4.06-4.06-4.06s-4.06 1.82-4.06 4.06v64.9h6l4.8-9.58h96.7l4.8 9.58h6v-17.22c-.01-.68-.56-1.24-1.25-1.24z" fill="#c87d5e"/>
@@ -487,95 +758,95 @@
                         </g>
                     </svg>
                 </div>
-                <p class="font-handwriting text-xl md:text-2xl text-amber-800 mt-3 text-center opacity-70">
+                <p class="font-hand dream-caption">
                     someone's been dreaming about you...
                 </p>
             </div>
         </div>
 
-        <div class="h-10 md:h-12 w-full"></div>
+        <div class="spacer"></div>
 
         <!-- Decorative Floral Divider Top -->
-        <div class="reveal-element mb-16 opacity-70">
-            <svg width="120" height="30" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="reveal-element divider-top">
+            <svg width="120" height="30" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M10 15 H50 M70 15 H110" stroke="#8d6e63" stroke-width="1" stroke-dasharray="3 3"/>
                 <path d="M60 8 C63 2, 67 2, 70 8 C75 10, 75 15, 70 17 C67 23, 63 23, 60 17 C55 15, 55 10, 60 8 Z" fill="#bcaaa4"/>
             </svg>
         </div>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">You know how we meet some people and simply forget,</span>
-            <span class="block reveal-element mb-1">Then there are those you meet and somehow never regret,</span>
-            <span class="block reveal-element mb-1">I never expected a stranger I met to become this close to me,</span>
-            <span class="block reveal-element">Yet somehow, in barely two months, you became the person I long to see.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">You know how we meet some people and simply forget,</span>
+            <span class="stanza-line reveal-element">Then there are those you meet and somehow never regret,</span>
+            <span class="stanza-line reveal-element">I never expected a stranger I met to become this close to me,</span>
+            <span class="stanza-line reveal-element">Yet somehow, in barely two months, you became the person I long to see.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">I still remember those first conversations we shared,</span>
-            <span class="block reveal-element mb-1">Little pieces of our lives, quietly revealed and compared,</span>
-            <span class="block reveal-element mb-1">I never knew that somewhere between a hello and goodnight,</span>
-            <span class="block reveal-element">A certain girl would slowly make my ordinary world feel right.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">I still remember those first conversations we shared,</span>
+            <span class="stanza-line reveal-element">Little pieces of our lives, quietly revealed and compared,</span>
+            <span class="stanza-line reveal-element">I never knew that somewhere between a hello and goodnight,</span>
+            <span class="stanza-line reveal-element">A certain girl would slowly make my ordinary world feel right.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">You arrived without warning, without some grand design,</span>
-            <span class="block reveal-element mb-1">And somehow your little world began becoming part of mine,</span>
-            <span class="block reveal-element mb-1">What started with messages became something I could feel,</span>
-            <span class="block reveal-element">A connection so effortless, I sometimes wonder if it’s the real deal.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">You arrived without warning, without some grand design,</span>
+            <span class="stanza-line reveal-element">And somehow your little world began becoming part of mine,</span>
+            <span class="stanza-line reveal-element">What started with messages became something I could feel,</span>
+            <span class="stanza-line reveal-element">A connection so effortless, I sometimes wonder if it’s the real deal.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">They say beautiful things are meant to be seen,</span>
-            <span class="block reveal-element mb-1">In paintings, in sunsets, and in places untouched and serene,</span>
-            <span class="block reveal-element mb-1">But now beauty, to me, is no longer somewhere far away,</span>
-            <span class="block reveal-element">It has your eyes, your smile, and the little things that you say.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">They say beautiful things are meant to be seen,</span>
+            <span class="stanza-line reveal-element">In paintings, in sunsets, and in places untouched and serene,</span>
+            <span class="stanza-line reveal-element">But now beauty, to me, is no longer somewhere far away,</span>
+            <span class="stanza-line reveal-element">It has your eyes, your smile, and the little things that you say.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">Your eyes have a way of making silence feel complete,</span>
-            <span class="block reveal-element mb-1">Like every restless thought in me suddenly finds its seat,</span>
-            <span class="block reveal-element mb-1">And when you smile, there is something I cannot explain,</span>
-            <span class="block reveal-element">Like sunlight somehow learning to fall as a gentle rain.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">Your eyes have a way of making silence feel complete,</span>
+            <span class="stanza-line reveal-element">Like every restless thought in me suddenly finds its seat,</span>
+            <span class="stanza-line reveal-element">And when you smile, there is something I cannot explain,</span>
+            <span class="stanza-line reveal-element">Like sunlight somehow learning to fall as a gentle rain.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">You have this way of thinking about the smallest detail,</span>
-            <span class="block reveal-element mb-1">Turning every tiny thought into a story without fail,</span>
-            <span class="block reveal-element mb-1">Sometimes you overthink what the moment might mean,</span>
-            <span class="block reveal-element">Yet somehow that thoughtful heart is one of the sweetest things I’ve seen.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">You have this way of thinking about the smallest detail,</span>
+            <span class="stanza-line reveal-element">Turning every tiny thought into a story without fail,</span>
+            <span class="stanza-line reveal-element">Sometimes you overthink what the moment might mean,</span>
+            <span class="stanza-line reveal-element">Yet somehow that thoughtful heart is one of the sweetest things I’ve seen.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">You know, you are a little dicey, and your choices are grey,</span>
-            <span class="block reveal-element mb-1">And I might not always know what you want to say,</span>
-            <span class="block reveal-element mb-1">But perhaps that is one reason your heart feels so rare,</span>
-            <span class="block reveal-element">Because you never choose carelessly, you choose because you care.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">You know, you are a little dicey, and your choices are grey,</span>
+            <span class="stanza-line reveal-element">And I might not always know what you want to say,</span>
+            <span class="stanza-line reveal-element">But perhaps that is one reason your heart feels so rare,</span>
+            <span class="stanza-line reveal-element">Because you never choose carelessly, you choose because you care.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">My fav part is when you sing, and the whole world seems to slow,</span>
-            <span class="block reveal-element mb-1">As though even the quietest corners want to hear your glow,</span>
-            <span class="block reveal-element mb-1">If the heavens ever needed a voice to sing beneath its blue,</span>
-            <span class="block reveal-element">I think it would want to borrow a little melody from you.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">My fav part is when you sing, and the whole world seems to slow,</span>
+            <span class="stanza-line reveal-element">As though even the quietest corners want to hear your glow,</span>
+            <span class="stanza-line reveal-element">If the heavens ever needed a voice to sing beneath its blue,</span>
+            <span class="stanza-line reveal-element">I think it would want to borrow a little melody from you.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">There is something beautiful in the kindness that you show,</span>
-            <span class="block reveal-element mb-1">The way your softer side appears without needing me to know,</span>
-            <span class="block reveal-element mb-1">You make room for little lives, for every creature and every hue,</span>
-            <span class="block reveal-element">And somehow that gentle part of you makes me admire you more than I knew.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">There is something beautiful in the kindness that you show,</span>
+            <span class="stanza-line reveal-element">The way your softer side appears without needing me to know,</span>
+            <span class="stanza-line reveal-element">You make room for little lives, for every creature and every hue,</span>
+            <span class="stanza-line reveal-element">And somehow that gentle part of you makes me admire you more than I knew.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">Perhaps flowers remind me of you for reasons I cannot explain,</span>
-            <span class="block reveal-element mb-1">For every bloom holds a beauty, but yours feels different all the same,</span>
-            <span class="block reveal-element mb-1">Carnations, tulips, lilies, each can brighten any view,</span>
-            <span class="block reveal-element">But if beauty had a name, I think it would sound like you.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">Perhaps flowers remind me of you for reasons I cannot explain,</span>
+            <span class="stanza-line reveal-element">For every bloom holds a beauty, but yours feels different all the same,</span>
+            <span class="stanza-line reveal-element">Carnations, tulips, lilies, each can brighten any view,</span>
+            <span class="stanza-line reveal-element">But if beauty had a name, I think it would sound like you.</span>
         </p>
 
         <!-- Decorative subtle flower to mark a transition -->
-        <div class="reveal-element mb-16 opacity-60">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#a98467" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <div class="reveal-element divider-flower">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#a98467" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M12 22v-7" />
                 <path d="M12 15c-2.5 0-4-2-4-4s1.5-4 4-4 4 2 4 4-1.5 4-4 4z" />
                 <path d="M8 11c-1.5 0-3-1-3-2.5S6.5 6 8 6" />
@@ -585,137 +856,137 @@
             </svg>
         </div>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">They call the carnation the flower of the gods, adorned in sacred grace,</span>
-            <span class="block reveal-element mb-1">And I can almost understand it when I look upon your face,</span>
-            <span class="block reveal-element mb-1">Its petals hold a softness, its colours warm and bright,</span>
-            <span class="block reveal-element">Yet somehow you carry all of that, with much more in sight.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">They call the carnation the flower of the gods, adorned in sacred grace,</span>
+            <span class="stanza-line reveal-element">And I can almost understand it when I look upon your face,</span>
+            <span class="stanza-line reveal-element">Its petals hold a softness, its colours warm and bright,</span>
+            <span class="stanza-line reveal-element">Yet somehow you carry all of that, with much more in sight.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">Yellow like the sunlight dancing softly through the trees,</span>
-            <span class="block reveal-element mb-1">Pink like a feeling carried gently on the breeze,</span>
-            <span class="block reveal-element mb-1">Green like the peaceful little world I find when I’m with you,</span>
-            <span class="block reveal-element">Perhaps that is why these colours feel so perfectly true.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">Yellow like the sunlight dancing softly through the trees,</span>
+            <span class="stanza-line reveal-element">Pink like a feeling carried gently on the breeze,</span>
+            <span class="stanza-line reveal-element">Green like the peaceful little world I find when I’m with you,</span>
+            <span class="stanza-line reveal-element">Perhaps that is why these colours feel so perfectly true.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">Maybe it’s momos on a street beneath the evening glow,</span>
-            <span class="block reveal-element mb-1">Or pani puri while we laugh and have nowhere else to go,</span>
-            <span class="block reveal-element mb-1">Maybe pizza, maybe pasta, maybe something entirely new,</span>
-            <span class="block reveal-element">Truth is, I’d probably enjoy it all, as long as I’m there with you.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">Maybe it’s momos on a street beneath the evening glow,</span>
+            <span class="stanza-line reveal-element">Or pani puri while we laugh and have nowhere else to go,</span>
+            <span class="stanza-line reveal-element">Maybe pizza, maybe pasta, maybe something entirely new,</span>
+            <span class="stanza-line reveal-element">Truth is, I’d probably enjoy it all, as long as I’m there with you.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">There is something about the songs you love that stays in my head,</span>
-            <span class="block reveal-element mb-1">Like little pieces of you hiding inside every word that is said,</span>
-            <span class="block reveal-element mb-1">From Strawberries and Cigarettes to Heavenly Kind of State of Mind,</span>
-            <span class="block reveal-element">Each one somehow leaves another little picture of you behind.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">There is something about the songs you love that stays in my head,</span>
+            <span class="stanza-line reveal-element">Like little pieces of you hiding inside every word that is said,</span>
+            <span class="stanza-line reveal-element">From Strawberries and Cigarettes to Heavenly Kind of State of Mind,</span>
+            <span class="stanza-line reveal-element">Each one somehow leaves another little picture of you behind.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">You love Spider-Man, the one who keeps reaching for the sky,</span>
-            <span class="block reveal-element mb-1">The one who falls, gets back up, and still chooses to try,</span>
-            <span class="block reveal-element mb-1">Perhaps that is why it feels fitting, somehow, to see you that way,</span>
-            <span class="block reveal-element">A little extraordinary soul making ordinary moments brighter every day.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">You love Spider-Man, the one who keeps reaching for the sky,</span>
+            <span class="stanza-line reveal-element">The one who falls, gets back up, and still chooses to try,</span>
+            <span class="stanza-line reveal-element">Perhaps that is why it feels fitting, somehow, to see you that way,</span>
+            <span class="stanza-line reveal-element">A little extraordinary soul making ordinary moments brighter every day.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">And now there have been two dates, with another waiting somewhere ahead,</span>
-            <span class="block reveal-element mb-1">Another little chapter that neither of us has completely read,</span>
-            <span class="block reveal-element mb-1">Yet somehow I already find myself hoping, quietly, that there is more,</span>
-            <span class="block reveal-element">Because every time I leave you, I find myself wanting another door.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">And now there have been two dates, with another waiting somewhere ahead,</span>
+            <span class="stanza-line reveal-element">Another little chapter that neither of us has completely read,</span>
+            <span class="stanza-line reveal-element">Yet somehow I already find myself hoping, quietly, that there is more,</span>
+            <span class="stanza-line reveal-element">Because every time I leave you, I find myself wanting another door.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">I call you S because one letter somehow says your name,</span>
-            <span class="block reveal-element mb-1">And princess sometimes, because honestly, you earned that frame,</span>
-            <span class="block reveal-element mb-1">You call me honey, and I pretend that it does not make me smile,</span>
-            <span class="block reveal-element">But I keep those little words with me long after every mile.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">I call you S because one letter somehow says your name,</span>
+            <span class="stanza-line reveal-element">And princess sometimes, because honestly, you earned that frame,</span>
+            <span class="stanza-line reveal-element">You call me honey, and I pretend that it does not make me smile,</span>
+            <span class="stanza-line reveal-element">But I keep those little words with me long after every mile.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">Maybe love is not always lightning, dramatic and bright,</span>
-            <span class="block reveal-element mb-1">Maybe sometimes it is simply feeling at home on an ordinary night,</span>
-            <span class="block reveal-element mb-1">Maybe it is laughing at nothing until the hours disappear,</span>
-            <span class="block reveal-element">And slowly realizing there is one person you always want near.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">Maybe love is not always lightning, dramatic and bright,</span>
+            <span class="stanza-line reveal-element">Maybe sometimes it is simply feeling at home on an ordinary night,</span>
+            <span class="stanza-line reveal-element">Maybe it is laughing at nothing until the hours disappear,</span>
+            <span class="stanza-line reveal-element">And slowly realizing there is one person you always want near.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">I wish the distance between us were only a little less,</span>
-            <span class="block reveal-element mb-1">So seeing you could happen without waiting, without a guess,</span>
-            <span class="block reveal-element mb-1">For when a week or two passes before I see you again,</span>
-            <span class="block reveal-element">I find myself wishing you lived just a little closer than you do.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">I wish the distance between us were only a little less,</span>
+            <span class="stanza-line reveal-element">So seeing you could happen without waiting, without a guess,</span>
+            <span class="stanza-line reveal-element">For when a week or two passes before I see you again,</span>
+            <span class="stanza-line reveal-element">I find myself wishing you lived just a little closer than you do.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">Maybe it is knowing someone’s chaos and still choosing to stay,</span>
-            <span class="block reveal-element mb-1">Knowing every little habit and loving them anyway,</span>
-            <span class="block reveal-element mb-1">Knowing she may overthink, hesitate, sleep late, and take her time,</span>
-            <span class="block reveal-element">And still thinking every imperfect part somehow fits perfectly with mine.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">Maybe it is knowing someone’s chaos and still choosing to stay,</span>
+            <span class="stanza-line reveal-element">Knowing every little habit and loving them anyway,</span>
+            <span class="stanza-line reveal-element">Knowing she may overthink, hesitate, sleep late, and take her time,</span>
+            <span class="stanza-line reveal-element">And still thinking every imperfect part somehow fits perfectly with mine.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">So I have compared you to flowers, to sunsets, to the sea,</span>
-            <span class="block reveal-element mb-1">To stars and songs and every beautiful thing I could see,</span>
-            <span class="block reveal-element mb-1">But every metaphor eventually feels too small to hold true,</span>
-            <span class="block reveal-element">Because the more I try to describe beauty, the more it leads me to you.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">So I have compared you to flowers, to sunsets, to the sea,</span>
+            <span class="stanza-line reveal-element">To stars and songs and every beautiful thing I could see,</span>
+            <span class="stanza-line reveal-element">But every metaphor eventually feels too small to hold true,</span>
+            <span class="stanza-line reveal-element">Because the more I try to describe beauty, the more it leads me to you.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1">So before I compare you to another star in the night,</span>
-            <span class="block reveal-element mb-1">Before I call you my moon or my sunrise light,</span>
-            <span class="block reveal-element mb-1">Let me leave the universe behind and simply speak from my heart,</span>
-            <span class="block reveal-element">Because perhaps the most beautiful things are the ones we never know how to start.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element">So before I compare you to another star in the night,</span>
+            <span class="stanza-line reveal-element">Before I call you my moon or my sunrise light,</span>
+            <span class="stanza-line reveal-element">Let me leave the universe behind and simply speak from my heart,</span>
+            <span class="stanza-line reveal-element">Because perhaps the most beautiful things are the ones we never know how to start.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="0">C</span>ould I tell you that somewhere between every laugh and every call,</span>
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="1">A</span> little part of me began to hope that you might become my all?</span>
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="2">N</span>ot because I need some perfect story written in the stars above,</span>
-            <span class="block reveal-element"><span class="acrostic-source-letter" data-acrostic="3">I</span> simply found myself falling, quietly and honestly, in love.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="0">C</span>ould I tell you that somewhere between every laugh and every call,</span>
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="1">A</span> little part of me began to hope that you might become my all?</span>
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="2">N</span>ot because I need some perfect story written in the stars above,</span>
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="3">I</span> simply found myself falling, quietly and honestly, in love.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="4">B</span>ecause every road I take somehow circles back to you,</span>
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="5">E</span>very little future I imagine feels warmer when you are in view,</span>
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="6">Y</span>ou have become a thought that visits me before I sleep,</span>
-            <span class="block reveal-element"><span class="acrostic-source-letter" data-acrostic="7">O</span>ne I find myself holding onto, one I find myself wanting to keep.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="4">B</span>ecause every road I take somehow circles back to you,</span>
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="5">E</span>very little future I imagine feels warmer when you are in view,</span>
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="6">Y</span>ou have become a thought that visits me before I sleep,</span>
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="7">O</span>ne I find myself holding onto, one I find myself wanting to keep.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="8">U</span>nder all the teasing, the coffee, the songs, the dates we have made,</span>
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="9">R</span>ests one simple feeling that time has only deepened, never swayed,</span>
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="10">B</span>eyond every flower, every colour, every beautiful view,</span>
-            <span class="block reveal-element"><span class="acrostic-source-letter" data-acrostic="11">O</span>ne truth keeps growing quietly: I really, really like you.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="8">U</span>nder all the teasing, the coffee, the songs, the dates we have made,</span>
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="9">R</span>ests one simple feeling that time has only deepened, never swayed,</span>
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="10">B</span>eyond every flower, every colour, every beautiful view,</span>
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="11">O</span>ne truth keeps growing quietly: I really, really like you.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="12">Y</span>ou are the girl I want beside me when ordinary days unfold,</span>
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="13">F</span>or all the little stories we have yet to write and memories yet to hold,</span>
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="14">R</span>ather than promise perfection, I would promise to choose you true,</span>
-            <span class="block reveal-element"><span class="acrostic-source-letter" data-acrostic="15">I</span>n every silly, beautiful, complicated moment we stumble through.</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="12">Y</span>ou are the girl I want beside me when ordinary days unfold,</span>
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="13">F</span>or all the little stories we have yet to write and memories yet to hold,</span>
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="14">R</span>ather than promise perfection, I would promise to choose you true,</span>
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="15">I</span>n every silly, beautiful, complicated moment we stumble through.</span>
         </p>
 
-        <p class="text-lg md:text-xl leading-relaxed md:leading-loose text-center mb-16 max-w-2xl w-full">
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="16">E</span>very word before this was simply my heart finding its way,</span>
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="17">N</span>ow there is only one thing I have been wanting to say,</span>
-            <span class="block reveal-element mb-1"><span class="acrostic-source-letter" data-acrostic="18">D</span>o you think there’s a chance our story could become something new?</span>
-            <span class="block reveal-element">The future is unknown, but could I make a little forever with you?</span>
+        <p class="stanza">
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="16">E</span>very word before this was simply my heart finding its way,</span>
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="17">N</span>ow there is only one thing I have been wanting to say,</span>
+            <span class="stanza-line reveal-element"><span class="acrostic-source-letter" data-acrostic="18">D</span>o you think there’s a chance our story could become something new?</span>
+            <span class="stanza-line reveal-element">The future is unknown, but could I make a little forever with you?</span>
         </p>
-        
+
         <!-- Divider to transition to the final message -->
-        <div class="reveal-element w-full max-w-xs mx-auto my-20 flex items-center justify-center opacity-70">
-            <div class="h-px bg-amber-900/40 flex-grow"></div>
-            <svg class="mx-4 w-6 h-6 text-amber-800" fill="currentColor" viewBox="0 0 24 24">
+        <div class="reveal-element divider">
+            <div class="rule"></div>
+            <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
-            <div class="h-px bg-amber-900/40 flex-grow"></div>
+            <div class="rule"></div>
         </div>
 
         <!-- Final Message -->
-        <div id="final-message" class="reveal-element w-full max-w-2xl mt-4 mb-32 flex flex-col items-center">
-            <p class="font-handwriting text-2xl md:text-3xl text-amber-900 leading-snug md:leading-relaxed text-center rotate-[-1deg]">
+        <div id="final-message" class="reveal-element closing">
+            <p class="closing-text">
                 <span id="joke-text">
                     Okay, one last thing before I let you go. I've spent this whole letter comparing you to flowers, sunsets, carnations, and once, embarrassingly, the actual heavens. Lol, jk jk. If you were hoping I'd saved my best line for last, I hate to break it to you: I used them all already.
                     <br><br>
@@ -726,362 +997,626 @@
                     Take your time, S. I'll wait right here.
                 </span>
 
-                <span class="block mt-8">
-                    <button id="reveal-btn" type="button" class="font-poem text-lg md:text-xl text-amber-50 bg-amber-800 hover:bg-amber-900 px-6 py-2 rounded-full opacity-0 pointer-events-none transition-opacity duration-[1200ms] shadow-md">
+                <span class="reveal-btn-wrap">
+                    <button id="reveal-btn" type="button" class="btn btn-primary fade-target font-poem">
                         take me there &rarr;
                     </button>
                 </span>
 
-                <span class="text-2xl md:text-3xl block mt-8 text-right pr-12">- D.N.</span>
+                <span class="closing-signature">- D.N.</span>
             </p>
         </div>
 
     </main>
 
     <!-- Acrostic reveal overlay -->
-    <div id="acrostic-overlay" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500" style="background: rgba(62,39,35,0.55);">
-        <div id="acrostic-card" class="relative bg-[#f4e9da] border border-amber-900/30 rounded-lg shadow-2xl px-8 py-10 md:px-14 md:py-14 max-w-lg w-[88%] flex flex-col items-center text-center scale-90 transition-transform duration-500">
-            <p class="font-poem text-3xl md:text-4xl text-amber-900 leading-relaxed tracking-wide">
-                <span id="acrostic-text" class="inline-flex flex-wrap items-baseline justify-center gap-x-3 gap-y-2">
-                    <span class="inline-flex"><span class="target-letter" data-target="0">C</span><span class="target-letter" data-target="1">A</span><span class="target-letter" data-target="2">N</span></span>
-                    <span class="inline-flex"><span class="target-letter" data-target="3">I</span></span>
-                    <span class="inline-flex"><span class="target-letter" data-target="4">B</span><span class="target-letter" data-target="5">E</span></span>
-                    <span class="inline-flex"><span class="target-letter" data-target="6">Y</span><span class="target-letter" data-target="7">O</span><span class="target-letter" data-target="8">U</span><span class="target-letter" data-target="9">R</span></span>
-                    <span class="inline-flex"><span class="target-letter" data-target="10">B</span><span class="target-letter" data-target="11">O</span><span class="target-letter" data-target="12">Y</span><span class="target-letter" data-target="13">F</span><span class="target-letter" data-target="14">R</span><span class="target-letter" data-target="15">I</span><span class="target-letter" data-target="16">E</span><span class="target-letter" data-target="17">N</span><span class="target-letter" data-target="18">D</span></span>
-                </span><span id="acrostic-question" class="inline-block opacity-0 transition-opacity duration-700">?</span>
+    <div id="acrostic-overlay" role="dialog" aria-modal="true" aria-labelledby="acrostic-text" tabindex="-1">
+        <div id="acrostic-card">
+            <p class="acrostic-text font-poem" id="acrostic-text">
+                <span class="acrostic-word"><span class="target-letter" data-target="0">C</span><span class="target-letter" data-target="1">A</span><span class="target-letter" data-target="2">N</span></span>
+                <span class="acrostic-word"><span class="target-letter" data-target="3">I</span></span>
+                <span class="acrostic-word"><span class="target-letter" data-target="4">B</span><span class="target-letter" data-target="5">E</span></span>
+                <span class="acrostic-word"><span class="target-letter" data-target="6">Y</span><span class="target-letter" data-target="7">O</span><span class="target-letter" data-target="8">U</span><span class="target-letter" data-target="9">R</span></span>
+                <span class="acrostic-word"><span class="target-letter" data-target="10">B</span><span class="target-letter" data-target="11">O</span><span class="target-letter" data-target="12">Y</span><span class="target-letter" data-target="13">F</span><span class="target-letter" data-target="14">R</span><span class="target-letter" data-target="15">I</span><span class="target-letter" data-target="16">E</span><span class="target-letter" data-target="17">N</span><span class="target-letter" data-target="18">D</span></span>
+                <span id="acrostic-question" class="fade-target" style="display:inline-block;">?</span>
             </p>
-            <button id="acrostic-yes-btn" type="button" class="mt-8 font-poem text-lg md:text-xl bg-amber-800 hover:bg-amber-900 text-amber-50 px-7 py-2 rounded-full opacity-0 pointer-events-none transition-opacity duration-700">
+            <button id="acrostic-yes-btn" type="button" class="btn btn-primary fade-target font-poem" style="margin-top: var(--space-8);">
                 Yes :)
             </button>
-            <p id="acrostic-reply" class="mt-4 font-handwriting text-2xl text-amber-800 opacity-0 transition-opacity duration-700"></p>
+            <p id="acrostic-reply" class="font-hand fade-target" style="font-size: var(--text-2xl); color: var(--ink-soft); margin-top: var(--space-4);"></p>
         </div>
     </div>
 
     <script>
-        // ===== CAMERA INTRO FLOW =====
-        document.addEventListener('DOMContentLoaded', () => {
-            const cameraIntro = document.getElementById('camera-intro');
-            const stepPermission = document.getElementById('camera-step-permission');
-            const stepLive = document.getElementById('camera-step-live');
-            const stepReview = document.getElementById('camera-step-review');
-            const stepDenied = document.getElementById('camera-step-denied');
-            const startBtn = document.getElementById('camera-start-btn');
-            const video = document.getElementById('camera-video');
-            const captureBtn = document.getElementById('capture-btn');
-            const captureFlash = document.getElementById('capture-flash');
-            const canvas = document.getElementById('capture-canvas');
-            const reviewImg = document.getElementById('review-photo');
-            const retakeBtn = document.getElementById('retake-btn');
-            const continueBtn = document.getElementById('continue-btn');
+    (function () {
+        'use strict';
 
-            let stream = null;
-            let photoUrl = null;
+        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-            function showStep(step) {
-                [stepPermission, stepLive, stepReview, stepDenied].forEach(s => {
+        function wait(ms) {
+            return new Promise(function (resolve) { setTimeout(resolve, ms); });
+        }
+
+        /* ============================================================
+           Camera module — permission, capture, review, error handling
+           ============================================================ */
+        var Camera = (function () {
+            var cameraIntro = document.getElementById('camera-intro');
+            var stepPermission = document.getElementById('camera-step-permission');
+            var stepLive = document.getElementById('camera-step-live');
+            var stepReview = document.getElementById('camera-step-review');
+            var stepError = document.getElementById('camera-step-error');
+            var startBtn = document.getElementById('camera-start-btn');
+            var video = document.getElementById('camera-video');
+            var captureBtn = document.getElementById('capture-btn');
+            var captureFlash = document.getElementById('capture-flash');
+            var canvas = document.getElementById('capture-canvas');
+            var reviewImg = document.getElementById('review-photo');
+            var retakeBtn = document.getElementById('retake-btn');
+            var continueBtn = document.getElementById('continue-btn');
+            var retryBtn = document.getElementById('camera-retry-btn');
+            var errorTitle = document.getElementById('camera-error-title');
+            var errorBody = document.getElementById('camera-error-body');
+            var errorHint = document.getElementById('camera-error-hint');
+            var liveRegion = document.getElementById('camera-live-region');
+
+            var stream = null;
+            var photoUrl = null;
+            var onComplete = null;
+
+            function announce(msg) {
+                if (liveRegion) liveRegion.textContent = msg;
+            }
+
+            function showStep(step, message) {
+                [stepPermission, stepLive, stepReview, stepError].forEach(function (s) {
                     if (s) s.style.display = 'none';
                 });
                 if (step) step.style.display = '';
+                if (message) announce(message);
             }
 
-            // Request camera access
-            startBtn.addEventListener('click', async () => {
-                try {
-                    stream = await navigator.mediaDevices.getUserMedia({
-                        video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } }
-                    });
-                    video.srcObject = stream;
-                    showStep(stepLive);
-                } catch (err) {
-                    showStep(stepDenied);
+            function classifyError(err) {
+                if (!window.isSecureContext) {
+                    return {
+                        title: 'One quick thing',
+                        body: "Camera access only works over a secure connection.",
+                        hint: "Make sure you're opening this from the https:// link."
+                    };
                 }
-            });
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    return {
+                        title: 'Camera not supported',
+                        body: "This browser doesn't support camera access.",
+                        hint: 'Try opening this link in a recent version of Chrome, Safari, or Firefox.'
+                    };
+                }
+                var name = err && err.name;
+                if (name === 'NotAllowedError' || name === 'PermissionDeniedError') {
+                    return {
+                        title: 'Camera access blocked',
+                        body: 'Looks like camera permission was denied.',
+                        hint: "Tap the lock or site-info icon next to your browser's address bar, allow camera access, then try again."
+                    };
+                }
+                if (name === 'NotFoundError' || name === 'DevicesNotFoundError') {
+                    return {
+                        title: 'No camera found',
+                        body: "This device doesn't seem to have a camera available.",
+                        hint: 'Try again on a phone or laptop with a front camera.'
+                    };
+                }
+                if (name === 'NotReadableError' || name === 'TrackStartError') {
+                    return {
+                        title: 'Camera is busy',
+                        body: 'Another app might be using the camera right now.',
+                        hint: 'Close other apps or tabs using the camera, then try again.'
+                    };
+                }
+                return {
+                    title: 'Something went wrong',
+                    body: "Couldn't access the camera.",
+                    hint: (err && err.message) || 'Please try again.'
+                };
+            }
 
-            // Capture selfie
-            captureBtn.addEventListener('click', () => {
+            function showError(err) {
+                var info = classifyError(err);
+                errorTitle.textContent = info.title + ' 🙈';
+                errorBody.textContent = info.body;
+                errorHint.textContent = info.hint;
+                showStep(stepError, info.title);
+            }
+
+            async function requestStream() {
+                var idealConstraints = { video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } } };
+                try {
+                    return await navigator.mediaDevices.getUserMedia(idealConstraints);
+                } catch (err) {
+                    if (err && err.name === 'OverconstrainedError') {
+                        return await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+                    }
+                    throw err;
+                }
+            }
+
+            async function startCamera() {
+                try {
+                    stream = await requestStream();
+                    video.srcObject = stream;
+                    showStep(stepLive, 'Camera ready. Take your selfie.');
+                } catch (err) {
+                    showError(err);
+                }
+            }
+
+            function getCoverCropRect(sourceW, sourceH, targetW, targetH) {
+                var sourceRatio = sourceW / sourceH;
+                var targetRatio = targetW / targetH;
+                var cropW, cropH;
+                if (sourceRatio > targetRatio) {
+                    cropH = sourceH;
+                    cropW = sourceH * targetRatio;
+                } else {
+                    cropW = sourceW;
+                    cropH = sourceW / targetRatio;
+                }
+                return {
+                    x: (sourceW - cropW) / 2,
+                    y: (sourceH - cropH) / 2,
+                    w: cropW,
+                    h: cropH
+                };
+            }
+
+            function capturePhoto() {
                 captureFlash.classList.add('flash');
-                setTimeout(() => captureFlash.classList.remove('flash'), 400);
+                setTimeout(function () { captureFlash.classList.remove('flash'); }, 400);
 
-                const vw = video.videoWidth;
-                const vh = video.videoHeight;
-                canvas.width = vw;
-                canvas.height = vh;
-                const ctx = canvas.getContext('2d');
-                // Mirror the capture to match the selfie preview
-                ctx.translate(vw, 0);
+                var displayRect = video.getBoundingClientRect();
+                var crop = getCoverCropRect(
+                    video.videoWidth, video.videoHeight,
+                    displayRect.width, displayRect.height
+                );
+
+                canvas.width = Math.round(crop.w);
+                canvas.height = Math.round(crop.h);
+                var ctx = canvas.getContext('2d');
+                ctx.translate(canvas.width, 0);
                 ctx.scale(-1, 1);
-                ctx.drawImage(video, 0, 0, vw, vh);
+                ctx.drawImage(video, crop.x, crop.y, crop.w, crop.h, 0, 0, canvas.width, canvas.height);
 
                 photoUrl = canvas.toDataURL('image/jpeg', 0.92);
                 reviewImg.src = photoUrl;
-                showStep(stepReview);
-            });
+                showStep(stepReview, 'Review your photo.');
+            }
 
-            // Retake
-            retakeBtn.addEventListener('click', () => showStep(stepLive));
+            function init(options) {
+                onComplete = (options && options.onContinue) || function () {};
 
-            // Continue → zoom-out animation into dream bubble
-            continueBtn.addEventListener('click', () => {
-                if (stream) stream.getTracks().forEach(t => t.stop());
+                startBtn.addEventListener('click', startCamera);
+                retryBtn.addEventListener('click', startCamera);
+                captureBtn.addEventListener('click', capturePhoto);
+                retakeBtn.addEventListener('click', function () { showStep(stepLive, 'Camera ready.'); });
 
-                const poemMain = document.getElementById('poem-main');
-                const dreamPhoto = document.getElementById('dream-bubble-photo');
+                continueBtn.addEventListener('click', function () {
+                    if (stream) stream.getTracks().forEach(function (t) { t.stop(); });
+                    cameraIntro.style.display = 'none';
+                    onComplete(photoUrl);
+                });
+            }
 
-                // Create full-screen zoom photo
-                const zoomImg = document.createElement('img');
+            return { init: init };
+        })();
+
+        /* ============================================================
+           Transition module — FLIP zoom from selfie into dream bubble
+           ============================================================ */
+        var Transition = (function () {
+            function run(photoUrl, dreamPhoto, dreamSection, onDone) {
+                dreamSection.classList.add('is-visible');
+
+                var zoomImg = document.createElement('img');
                 zoomImg.src = photoUrl;
                 zoomImg.className = 'zoom-photo';
+                zoomImg.alt = '';
                 document.body.appendChild(zoomImg);
 
-                // Hide camera overlay, show poem page behind zoom photo
-                cameraIntro.style.display = 'none';
-                poemMain.style.display = '';
                 window.scrollTo(0, 0);
 
-                // Animate zoom-out after a brief pause
-                setTimeout(() => {
-                    void dreamPhoto.offsetHeight;
-                    const rect = dreamPhoto.getBoundingClientRect();
-
-                    zoomImg.style.top = rect.top + 'px';
-                    zoomImg.style.left = rect.left + 'px';
-                    zoomImg.style.width = rect.width + 'px';
-                    zoomImg.style.height = rect.height + 'px';
-                    zoomImg.style.borderRadius = '50%';
-
-                    // After zoom animation completes
-                    setTimeout(() => {
+                if (reducedMotion) {
+                    requestAnimationFrame(function () {
                         dreamPhoto.src = photoUrl;
                         zoomImg.style.opacity = '0';
-                        setTimeout(() => {
+                        setTimeout(function () {
                             zoomImg.remove();
-                            initPoemPage();
-                        }, 500);
-                    }, 2200);
-                }, 1000);
-            });
-        });
-
-        // ===== POEM PAGE INITIALIZATION =====
-        function initPoemPage() {
-            // Setup Intersection Observer for line-by-line reveal
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px 0px -10% 0px', // Triggers when line is 10% from bottom of screen
-                threshold: 0.1 
-            };
-
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        // Small timeout helps sequence items that appear on screen simultaneously
-                        setTimeout(() => {
-                            entry.target.classList.add('is-visible');
-                        }, 50); 
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            // Observe every individual line
-            const revealElements = document.querySelectorAll('.reveal-element');
-            revealElements.forEach((el) => {
-                observer.observe(el);
-            });
-
-            // Logic to create subtle floating hearts in the background
-            const heartContainer = document.getElementById('heart-container');
-            const heartColors = ['#d4a373', '#bc6c25', '#dda15e', '#bcaaa4'];
-
-            function createHeart() {
-                const heart = document.createElement('div');
-                heart.classList.add('floating-heart');
-                
-                // SVG Heart
-                const color = heartColors[Math.floor(Math.random() * heartColors.length)];
-                heart.innerHTML = `<svg viewBox="0 0 24 24" fill="${color}" class="w-5 h-5 md:w-6 md:h-6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
-                
-                // Randomize positions, durations and sizes to look natural
-                const leftPos = Math.random() * 100; // 0 to 100vw
-                const animDuration = Math.random() * 8 + 10; // 10 to 18 seconds
-                const sizeScale = Math.random() * 1.5 + 0.5; // 0.5 to 2.0 scale
-
-                heart.style.left = `${leftPos}vw`;
-                heart.style.animationDuration = `${animDuration}s`;
-                heart.style.transform = `scale(${sizeScale})`;
-                
-                heartContainer.appendChild(heart);
-
-                // Cleanup heart after animation completes to keep DOM light
-                setTimeout(() => {
-                    heart.remove();
-                }, animDuration * 1000);
-            }
-
-            // Create hearts periodically
-            setInterval(createHeart, 1200);
-            
-            // Create a few hearts instantly so the screen isn't empty initially
-            for(let i=0; i<4; i++) {
-                setTimeout(createHeart, i * 300);
-            }
-
-            // Acrostic reveal sequence
-            const jokeText = document.getElementById('joke-text');
-            const revealBtn = document.getElementById('reveal-btn');
-            const finalMessage = document.getElementById('final-message');
-            const overlay = document.getElementById('acrostic-overlay');
-            const card = document.getElementById('acrostic-card');
-            const question = document.getElementById('acrostic-question');
-            const yesBtn = document.getElementById('acrostic-yes-btn');
-            const reply = document.getElementById('acrostic-reply');
-
-
-            if (!jokeText || !revealBtn || !finalMessage || !overlay || !card) return;
-
-            // Reuses the same floating-heart visuals for a celebratory burst
-            function spawnHeart() {
-                const heart = document.createElement('div');
-                heart.classList.add('floating-heart');
-                const color = heartColors[Math.floor(Math.random() * heartColors.length)];
-                heart.innerHTML = `<svg viewBox="0 0 24 24" fill="${color}" class="w-5 h-5 md:w-6 md:h-6"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
-                const leftPos = Math.random() * 100;
-                const animDuration = Math.random() * 6 + 6;
-                const sizeScale = Math.random() * 1.5 + 0.5;
-                heart.style.left = `${leftPos}vw`;
-                heart.style.animationDuration = `${animDuration}s`;
-                heart.style.transform = `scale(${sizeScale})`;
-                heartContainer.appendChild(heart);
-                setTimeout(() => heart.remove(), animDuration * 1000);
-            }
-
-            function heartBurst(count) {
-                for (let i = 0; i < count; i++) {
-                    setTimeout(spawnHeart, i * 80);
-                }
-            }
-
-            // Reveal the "take me there" button after a reading-speed-based delay,
-            // once the final message has scrolled into view
-            const wordCount = jokeText.textContent.trim().split(/\s+/).length;
-            const READING_WORDS_PER_SECOND = 3.3; // ~200 wpm average adult reading speed
-            const delaySeconds = Math.min(30, Math.max(4, (wordCount / READING_WORDS_PER_SECOND) + 1.5));
-
-            const messageObserver = new IntersectionObserver((entries, obs) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setTimeout(() => {
-                            revealBtn.classList.remove('opacity-0', 'pointer-events-none');
-                        }, delaySeconds * 1000);
-                        obs.disconnect();
-                    }
-                });
-            }, { root: null, threshold: 0.5 });
-
-            messageObserver.observe(finalMessage);
-
-            // Flies a single source letter across the screen into its popup slot
-            function flyLetter(index, onLanded) {
-                const source = document.querySelector(`[data-acrostic="${index}"]`);
-                const target = document.querySelector(`[data-target="${index}"]`);
-                if (!source || !target) {
-                    onLanded();
+                            onDone();
+                        }, 400);
+                    });
                     return;
                 }
 
-                const srcRect = source.getBoundingClientRect();
-                const srcStyle = window.getComputedStyle(source);
-                const tgtRect = target.getBoundingClientRect();
-                const tgtStyle = window.getComputedStyle(target);
+                setTimeout(function () {
+                    var rect = dreamPhoto.getBoundingClientRect();
+                    var vw = window.innerWidth;
+                    var vh = window.innerHeight;
+                    var scaleX = rect.width / vw;
+                    var scaleY = rect.height / vh;
 
-                const clone = document.createElement('div');
-                clone.className = 'flying-letter-clone';
-                clone.textContent = source.textContent;
-                clone.style.left = `${srcRect.left}px`;
-                clone.style.top = `${srcRect.top}px`;
-                clone.style.fontFamily = srcStyle.fontFamily;
-                clone.style.fontSize = srcStyle.fontSize;
-                clone.style.fontWeight = srcStyle.fontWeight;
-                clone.style.color = srcStyle.color;
-                document.body.appendChild(clone);
-
-                source.classList.add('is-flying');
-
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        clone.style.left = `${tgtRect.left}px`;
-                        clone.style.top = `${tgtRect.top}px`;
-                        clone.style.fontFamily = tgtStyle.fontFamily;
-                        clone.style.fontSize = tgtStyle.fontSize;
-                        clone.style.color = tgtStyle.color;
-                        clone.style.transform = 'scale(1.15)';
+                    requestAnimationFrame(function () {
+                        requestAnimationFrame(function () {
+                            zoomImg.style.transform =
+                                'translate(' + rect.left + 'px, ' + rect.top + 'px) scale(' + scaleX + ', ' + scaleY + ')';
+                            zoomImg.style.borderRadius = '50%';
+                        });
                     });
+
+                    setTimeout(function () {
+                        dreamPhoto.src = photoUrl;
+                        zoomImg.style.opacity = '0';
+                        setTimeout(function () {
+                            zoomImg.remove();
+                            onDone();
+                        }, 500);
+                    }, 1700);
+                }, 700);
+            }
+
+            return { run: run };
+        })();
+
+        /* ============================================================
+           Ambient module — scroll reveal + floating hearts
+           ============================================================ */
+        var Ambient = (function () {
+            var heartContainer = document.getElementById('heart-container');
+            var heartColors = ['#d4a373', '#bc6c25', '#dda15e', '#bcaaa4'];
+            var heartCount = 0;
+            var MAX_HEARTS = 14;
+
+            function createHeart(container, opts) {
+                opts = opts || {};
+                var heart = document.createElement('div');
+                heart.className = 'floating-heart';
+
+                var inner = document.createElement('div');
+                inner.className = 'heart-icon';
+                var color = heartColors[Math.floor(Math.random() * heartColors.length)];
+                inner.innerHTML = '<svg viewBox="0 0 24 24" fill="' + color + '" width="22" height="22"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+                heart.appendChild(inner);
+
+                var leftPos = Math.random() * 100;
+                var duration = opts.burst ? (Math.random() * 6 + 6) : (Math.random() * 8 + 10);
+                var scale = Math.random() * 1.5 + 0.5;
+
+                heart.style.left = leftPos + 'vw';
+                heart.style.animationDuration = duration + 's';
+                inner.style.transform = 'scale(' + scale + ')';
+
+                container.appendChild(heart);
+                setTimeout(function () {
+                    heart.remove();
+                    if (opts.onDone) opts.onDone();
+                }, duration * 1000);
+            }
+
+            function spawnAmbientHeart() {
+                if (document.hidden || heartCount >= MAX_HEARTS) return;
+                heartCount++;
+                createHeart(heartContainer, { onDone: function () { heartCount--; } });
+            }
+
+            function heartBurst(count) {
+                if (reducedMotion) return;
+                for (var i = 0; i < count; i++) {
+                    setTimeout(function () { createHeart(heartContainer, { burst: true }); }, i * 80);
+                }
+            }
+
+            function initReveal() {
+                var observer = new IntersectionObserver(function (entries, obs) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            setTimeout(function () { entry.target.classList.add('is-visible'); }, 50);
+                            obs.unobserve(entry.target);
+                        }
+                    });
+                }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+
+                document.querySelectorAll('.reveal-element').forEach(function (el) {
+                    observer.observe(el);
+                });
+            }
+
+            function init() {
+                initReveal();
+                if (reducedMotion) return;
+                setInterval(spawnAmbientHeart, 1800);
+                for (var i = 0; i < 4; i++) setTimeout(spawnAmbientHeart, i * 300);
+            }
+
+            return { init: init, heartBurst: heartBurst };
+        })();
+
+        /* ============================================================
+           Acrostic module — scroll-and-lift climax
+           ============================================================ */
+        var Acrostic = (function () {
+            var jokeText = document.getElementById('joke-text');
+            var revealBtn = document.getElementById('reveal-btn');
+            var finalMessage = document.getElementById('final-message');
+            var overlay = document.getElementById('acrostic-overlay');
+            var card = document.getElementById('acrostic-card');
+            var question = document.getElementById('acrostic-question');
+            var yesBtn = document.getElementById('acrostic-yes-btn');
+            var reply = document.getElementById('acrostic-reply');
+
+            var REVEAL_DELAY_MS = 6000;
+            var STAGGER_MS = 180;
+            var FLIGHT_MS = 750;
+            var SETTLE_MS = 700;
+            var PAUSE_MS = 250;
+
+            var onYes = function () {};
+            var running = false;
+            var finished = false;
+            var groups = [];
+
+            function getGroups() {
+                var sources = Array.prototype.slice
+                    .call(document.querySelectorAll('[data-acrostic]'))
+                    .sort(function (a, b) { return Number(a.dataset.acrostic) - Number(b.dataset.acrostic); });
+
+                var result = [];
+                var map = new Map();
+                sources.forEach(function (el) {
+                    var stanza = el.closest('p');
+                    if (!map.has(stanza)) {
+                        map.set(stanza, []);
+                        result.push(map.get(stanza));
+                    }
+                    map.get(stanza).push(el);
+                });
+                return result;
+            }
+
+            function scrollLockHandler(active) {
+                var lockKeys = { ArrowUp: 1, ArrowDown: 1, PageUp: 1, PageDown: 1, Home: 1, End: 1, ' ': 1 };
+                function blockWheel(e) { if (active()) e.preventDefault(); }
+                function blockTouch(e) { if (active()) e.preventDefault(); }
+                function blockKeys(e) { if (active() && lockKeys[e.key]) e.preventDefault(); }
+                window.addEventListener('wheel', blockWheel, { passive: false });
+                window.addEventListener('touchmove', blockTouch, { passive: false });
+                window.addEventListener('keydown', blockKeys, { passive: false });
+            }
+            var scrollLockActive = false;
+            scrollLockHandler(function () { return scrollLockActive; });
+
+            function scrollToCenter(el) {
+                return new Promise(function (resolve) {
+                    var behavior = reducedMotion ? 'auto' : 'smooth';
+                    el.scrollIntoView({ behavior: behavior, block: 'center' });
+                    var settled = false;
+                    function done() {
+                        if (settled) return;
+                        settled = true;
+                        window.removeEventListener('scrollend', done);
+                        resolve();
+                    }
+                    if ('onscrollend' in window) {
+                        window.addEventListener('scrollend', done, { once: true });
+                        setTimeout(done, 1200);
+                    } else {
+                        setTimeout(done, SETTLE_MS);
+                    }
+                });
+            }
+
+            function flyLetter(source, target) {
+                return new Promise(function (resolve) {
+                    if (!source || !target) { resolve(); return; }
+
+                    var srcRect = source.getBoundingClientRect();
+                    var srcStyle = window.getComputedStyle(source);
+                    var tgtRect = target.getBoundingClientRect();
+                    var tgtStyle = window.getComputedStyle(target);
+
+                    var clone = document.createElement('div');
+                    clone.className = 'flying-letter-clone';
+                    clone.textContent = source.textContent;
+                    clone.style.fontFamily = srcStyle.fontFamily;
+                    clone.style.fontSize = srcStyle.fontSize;
+                    clone.style.fontWeight = srcStyle.fontWeight;
+                    clone.style.color = srcStyle.color;
+                    clone.style.transform = 'translate(' + srcRect.left + 'px, ' + srcRect.top + 'px)';
+                    document.body.appendChild(clone);
+
+                    source.classList.add('is-flying');
+
+                    var dx = tgtRect.left - srcRect.left;
+                    var dy = tgtRect.top - srcRect.top;
+
+                    requestAnimationFrame(function () {
+                        requestAnimationFrame(function () {
+                            clone.style.transform = 'translate(' + (srcRect.left + dx) + 'px, ' + (srcRect.top + dy) + 'px) scale(1.15)';
+                            clone.style.fontFamily = tgtStyle.fontFamily;
+                            clone.style.fontSize = tgtStyle.fontSize;
+                            clone.style.color = tgtStyle.color;
+                        });
+                    });
+
+                    setTimeout(function () {
+                        target.classList.add('landed');
+                        clone.remove();
+                        source.classList.remove('is-flying');
+                        resolve();
+                    }, FLIGHT_MS);
+                });
+            }
+
+            function flyGroup(group) {
+                return Promise.all(group.map(function (source, i) {
+                    return wait(i * STAGGER_MS).then(function () {
+                        var target = document.querySelector('[data-target="' + source.dataset.acrostic + '"]');
+                        return flyLetter(source, target);
+                    });
+                }));
+            }
+
+            function fadeGroupInstant(group) {
+                group.forEach(function (source) {
+                    var target = document.querySelector('[data-target="' + source.dataset.acrostic + '"]');
+                    if (target) target.classList.add('landed');
+                });
+                return wait(150);
+            }
+
+            function openOverlay() {
+                overlay.classList.add('is-active');
+                overlay.focus();
+                document.addEventListener('keydown', onKeydown);
+            }
+
+            function finalizeOverlay() {
+                if (finished) return;
+                finished = true;
+                overlay.classList.add('is-final');
+                setTimeout(function () {
+                    question.classList.add('is-shown');
+                    setTimeout(function () {
+                        yesBtn.classList.add('is-shown');
+                        yesBtn.focus();
+                    }, 300);
+                }, 300);
+            }
+
+            function closeOverlay() {
+                overlay.classList.remove('is-active', 'is-final');
+                document.removeEventListener('keydown', onKeydown);
+                scrollLockActive = false;
+                running = false;
+                revealBtn.classList.remove('btn-hidden');
+                revealBtn.disabled = false;
+                revealBtn.classList.add('is-shown');
+                revealBtn.focus();
+            }
+
+            function onKeydown(e) {
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    closeOverlay();
+                    return;
+                }
+                if (e.key === 'Tab') {
+                    var focusable = card.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+                    if (focusable.length === 0) { e.preventDefault(); return; }
+                    var first = focusable[0];
+                    var last = focusable[focusable.length - 1];
+                    if (e.shiftKey && document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    } else if (!e.shiftKey && document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                    return;
+                }
+                if (!finished) {
+                    skipToFinal();
+                }
+            }
+
+            function skipToFinal() {
+                document.querySelectorAll('.target-letter').forEach(function (el) { el.classList.add('landed'); });
+                document.querySelectorAll('.flying-letter-clone').forEach(function (el) { el.remove(); });
+                document.querySelectorAll('.acrostic-source-letter.is-flying').forEach(function (el) { el.classList.remove('is-flying'); });
+                scrollLockActive = false;
+                finalizeOverlay();
+            }
+
+            async function runSequence() {
+                scrollLockActive = true;
+                openOverlay();
+
+                for (var i = 0; i < groups.length; i++) {
+                    if (finished) return;
+                    var group = groups[i];
+                    var stanza = group[0].closest('p');
+                    if (reducedMotion) {
+                        await fadeGroupInstant(group);
+                    } else {
+                        await scrollToCenter(stanza);
+                        await flyGroup(group);
+                        await wait(PAUSE_MS);
+                    }
+                    if (finished) return;
+                }
+
+                scrollLockActive = false;
+                finalizeOverlay();
+            }
+
+            function showRevealButton() {
+                revealBtn.classList.add('is-shown');
+            }
+
+            function init(options) {
+                onYes = (options && options.onYes) || function () {};
+                groups = getGroups();
+                if (!jokeText || !revealBtn || !finalMessage || !overlay || !card || groups.length === 0) return;
+
+                var messageObserver = new IntersectionObserver(function (entries, obs) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            setTimeout(showRevealButton, REVEAL_DELAY_MS);
+                            obs.disconnect();
+                        }
+                    });
+                }, { root: null, threshold: 0.5 });
+                messageObserver.observe(finalMessage);
+
+                revealBtn.addEventListener('click', function () {
+                    if (running) return;
+                    running = true;
+                    finished = false;
+                    revealBtn.disabled = true;
+                    revealBtn.classList.remove('is-shown');
+                    runSequence();
                 });
 
-                setTimeout(() => {
-                    target.classList.add('landed');
-                    clone.remove();
-                    source.classList.remove('is-flying');
-                    onLanded();
-                }, 800);
-            }
-
-            // Kicks off all 19 letters flying in a staggered cascade
-            function startLetterFlight() {
-                const STAGGER_MS = 220;
-                const LETTER_COUNT = 19;
-                let landedCount = 0;
-
-                for (let index = 0; index < LETTER_COUNT; index++) {
-                    setTimeout(() => {
-                        flyLetter(index, () => {
-                            landedCount++;
-                            if (landedCount === LETTER_COUNT) {
-                                setTimeout(() => {
-                                    question.classList.remove('opacity-0');
-                                    setTimeout(() => {
-                                        yesBtn.classList.remove('opacity-0', 'pointer-events-none');
-                                    }, 300);
-                                }, 300);
-                            }
-                        });
-                    }, index * STAGGER_MS);
-                }
-            }
-
-            revealBtn.addEventListener('click', () => {
-                revealBtn.disabled = true;
-                revealBtn.classList.add('opacity-0', 'pointer-events-none');
-
-                const firstLetter = document.querySelector('[data-acrostic="0"]');
-                if (firstLetter) {
-                    firstLetter.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-
-                setTimeout(() => {
-                    document.documentElement.style.overflow = 'hidden';
-                    document.body.style.overflow = 'hidden';
-
-                    overlay.classList.add('is-active');
-                    card.classList.add('is-active');
-
-                    setTimeout(startLetterFlight, 500);
-                }, 1000);
-            });
-
-            if (yesBtn) {
-                yesBtn.addEventListener('click', () => {
-                    yesBtn.classList.add('opacity-0', 'pointer-events-none');
-                    heartBurst(24);
+                yesBtn.addEventListener('click', function () {
+                    yesBtn.classList.remove('is-shown');
+                    onYes();
                     if (reply) {
                         reply.textContent = "Yay!! I'm smiling so hard right now.";
-                        reply.classList.remove('opacity-0');
+                        reply.classList.add('is-shown');
                     }
-                    document.documentElement.style.overflow = '';
-                    document.body.style.overflow = '';
                 });
             }
-        }
+
+            return { init: init };
+        })();
+
+        /* ============================================================
+           Wire it together
+           ============================================================ */
+        document.addEventListener('DOMContentLoaded', function () {
+            Camera.init({
+                onContinue: function (photoUrl) {
+                    var poemMain = document.getElementById('poem-main');
+                    var dreamPhoto = document.getElementById('dream-bubble-photo');
+                    var dreamSection = document.getElementById('dream-bubble-section');
+
+                    poemMain.style.display = '';
+
+                    Transition.run(photoUrl, dreamPhoto, dreamSection, function () {
+                        Ambient.init();
+                        Acrostic.init({ onYes: function () { Ambient.heartBurst(24); } });
+                    });
+                }
+            });
+        });
+    })();
     </script>
 </body>
 </html>
