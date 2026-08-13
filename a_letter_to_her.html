@@ -39,6 +39,7 @@
             --on-accent: #fdf6ee;
             --rule: rgba(62, 39, 35, 0.35);
             --card-border: rgba(141, 110, 99, 0.35);
+            --dream-line: #ab8f76;
             --focus-ring: #a8632f;
             --heart-red: rgba(196, 46, 46, 0.85);
 
@@ -210,7 +211,16 @@
            ============================================================ */
         .acrostic-source-letter {
             display: inline-block;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease, color 0.35s ease,
+                        background-color 0.35s ease, text-shadow 0.35s ease;
+        }
+        /* Highlight beat before lift-off. Colour/shadow/background only —
+           anything affecting metrics would reflow the poem line. */
+        .acrostic-source-letter.is-highlighted {
+            color: var(--accent-strong);
+            background-color: rgba(201, 141, 61, 0.32);
+            border-radius: 3px;
+            text-shadow: 0 0 12px rgba(168, 99, 47, 0.55);
         }
         .acrostic-source-letter.is-flying { opacity: 0.15; }
 
@@ -227,11 +237,30 @@
             left: 0;
             z-index: 60;
             pointer-events: none;
-            transform: translate(0, 0) scale(1);
-            transition: transform 1.05s cubic-bezier(0.65, 0, 0.35, 1),
-                        font-size 1.05s ease,
-                        color 1.05s ease;
+            transform: translate(var(--fly-x, 0px), var(--fly-y, 0px));
+            transition: font-size 1.15s ease, color 1.15s ease;
             will-change: transform;
+        }
+        /* Swells mid-flight, then settles back to size as it lands. */
+        .flying-letter-clone.is-launched {
+            animation: letterFly var(--fly-ms, 1150ms) cubic-bezier(0.5, 0, 0.35, 1) forwards;
+        }
+        @keyframes letterFly {
+            0% {
+                transform: translate(var(--fly-x), var(--fly-y)) scale(1);
+            }
+            45% {
+                transform: translate(
+                    calc(var(--fly-x) + var(--fly-dx) * 0.45),
+                    calc(var(--fly-y) + var(--fly-dy) * 0.45)
+                ) scale(1.6);
+            }
+            100% {
+                transform: translate(
+                    calc(var(--fly-x) + var(--fly-dx)),
+                    calc(var(--fly-y) + var(--fly-dy))
+                ) scale(1);
+            }
         }
 
         /* Anchored to the top so the source stanzas stay visible behind it —
@@ -295,6 +324,28 @@
         /* Hidden panels collapse out of the layout so the card stays compact
            instead of reserving empty space for every future state. */
         .collapsible { display: none; }
+
+        /* Only way out once she has answered — revealed after "Yes". */
+        .acrostic-close {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            background: transparent;
+            color: var(--ink-faint);
+            font-size: 1.6rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease, opacity 0.6s ease;
+        }
+        .acrostic-close:hover {
+            background-color: rgba(62, 39, 35, 0.09);
+            color: var(--ink);
+        }
 
         @keyframes cardShake {
             0%, 100% { transform: translateX(0); }
@@ -479,7 +530,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: var(--space-12);
+            margin-bottom: var(--space-5);
         }
 
         .dream-illustration {
@@ -501,19 +552,29 @@
         }
         .dream-cloud-bubble .cloud-shape {
             position: absolute;
-            inset: -14px;
+            inset: -16px;
             z-index: 0;
         }
+        /* Stroked copy underneath + solid copy on top reads as one outlined
+           cloud, instead of a pile of separately-outlined circles. */
+        .cloud-shape .cloud-stroke circle {
+            fill: var(--paper-card);
+            stroke: var(--dream-line);
+            stroke-width: 5;
+        }
+        .cloud-shape .cloud-body circle { fill: var(--paper-card); }
 
         .dream-bubble-photo {
             position: relative;
-            width: 130px;
-            height: 130px;
+            width: 128px;
+            height: 128px;
             border-radius: 50%;
             object-fit: cover;
             z-index: 1;
-            border: 3px solid rgba(188, 170, 164, 0.6);
-            box-shadow: 0 4px 24px rgba(62, 39, 35, 0.15);
+            border: 5px solid var(--paper-card);
+            box-shadow:
+                0 0 0 2px var(--dream-line),
+                0 6px 18px rgba(62, 39, 35, 0.22);
             background-color: var(--paper-card);
         }
 
@@ -521,28 +582,54 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
-            margin-bottom: -8px;
+            gap: 7px;
+            margin-top: -4px;
+            margin-bottom: 0;
             z-index: 1;
         }
         .thought-dot {
             border-radius: 50%;
-            background: #d7ccc8;
-            border: 1px solid rgba(188, 170, 164, 0.4);
+            background: var(--paper-card);
+            border: 2px solid var(--dream-line);
         }
-        .thought-dot:nth-child(1) { transform: translateX(2px); }
-        .thought-dot:nth-child(2) { transform: translateX(-10px); }
-        .thought-dot:nth-child(3) { transform: translateX(-20px); }
+        /* Trails down and to the left, toward the sleeper's head. */
+        .thought-dot:nth-child(1) { width: 17px; height: 17px; transform: translateX(-6px); }
+        .thought-dot:nth-child(2) { width: 12px; height: 12px; transform: translateX(-18px); }
+        .thought-dot:nth-child(3) { width: 8px;  height: 8px;  transform: translateX(-28px); }
+
+        .person-figure { position: relative; }
+
+        .person-label {
+            position: absolute;
+            left: 56%;
+            top: -2px;
+            font-size: var(--text-base);
+            color: var(--ink-soft);
+            white-space: nowrap;
+            transform: rotate(-4deg);
+            z-index: 2;
+        }
+        /* Short leader line angling down-left toward the sleeper's head. */
+        .person-label::before {
+            content: '';
+            position: absolute;
+            left: -21px;
+            top: 15px;
+            width: 22px;
+            height: 1.5px;
+            border-radius: 1px;
+            background: var(--dream-line);
+            transform: rotate(28deg);
+            transform-origin: right center;
+        }
 
         .person-svg-container {
-            width: 152px;
+            width: 150px;
             height: auto;
-            margin-top: -16px;
-            margin-left: -26px;
-            opacity: 0.85;
-            filter: sepia(0.3) saturate(0.85);
+            margin-top: 2px;
+            filter: sepia(0.25) saturate(0.9);
         }
-        .person-svg-container svg { width: 100%; height: auto; }
+        .person-svg-container svg { width: 100%; height: auto; display: block; }
 
         .dream-caption {
             font-size: var(--text-xl);
@@ -572,7 +659,7 @@
         }
 
         .divider-top {
-            margin-bottom: var(--space-16);
+            margin-bottom: var(--space-8);
             opacity: 0.7;
         }
 
@@ -583,7 +670,7 @@
             text-align: center;
             text-wrap: pretty;
             max-width: 32rem;
-            margin: var(--space-10) auto var(--space-12);
+            margin: var(--space-4) auto var(--space-6);
         }
 
         .stanza {
@@ -605,7 +692,7 @@
             letter-spacing: 0.04em;
             color: var(--ink);
             text-align: center;
-            margin: 0 0 var(--space-12);
+            margin: 0 0 var(--space-10);
         }
 
         .poem-signature {
@@ -756,26 +843,44 @@
             <div class="dream-illustration">
                 <!-- Cloud dream bubble with selfie photo -->
                 <div class="dream-cloud-bubble">
-                    <svg class="cloud-shape" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <ellipse cx="110" cy="105" rx="90" ry="80" fill="#d7ccc8" opacity="0.35"/>
-                        <ellipse cx="65" cy="110" rx="55" ry="50" fill="#d7ccc8" opacity="0.3"/>
-                        <ellipse cx="155" cy="110" rx="55" ry="50" fill="#d7ccc8" opacity="0.3"/>
-                        <ellipse cx="110" cy="70" rx="60" ry="50" fill="#d7ccc8" opacity="0.3"/>
-                        <ellipse cx="80" cy="75" rx="45" ry="40" fill="#d7ccc8" opacity="0.25"/>
-                        <ellipse cx="140" cy="75" rx="45" ry="40" fill="#d7ccc8" opacity="0.25"/>
-                        <ellipse cx="110" cy="140" rx="65" ry="40" fill="#d7ccc8" opacity="0.25"/>
+                    <svg class="cloud-shape" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <g class="cloud-stroke">
+                            <circle cx="110" cy="110" r="72"/>
+                            <circle cx="110" cy="52"  r="38"/>
+                            <circle cx="68"  cy="68"  r="34"/>
+                            <circle cx="152" cy="68"  r="34"/>
+                            <circle cx="42"  cy="110" r="32"/>
+                            <circle cx="178" cy="110" r="32"/>
+                            <circle cx="68"  cy="152" r="34"/>
+                            <circle cx="152" cy="152" r="34"/>
+                            <circle cx="110" cy="168" r="36"/>
+                        </g>
+                        <g class="cloud-body">
+                            <circle cx="110" cy="110" r="72"/>
+                            <circle cx="110" cy="52"  r="38"/>
+                            <circle cx="68"  cy="68"  r="34"/>
+                            <circle cx="152" cy="68"  r="34"/>
+                            <circle cx="42"  cy="110" r="32"/>
+                            <circle cx="178" cy="110" r="32"/>
+                            <circle cx="68"  cy="152" r="34"/>
+                            <circle cx="152" cy="152" r="34"/>
+                            <circle cx="110" cy="168" r="36"/>
+                        </g>
                     </svg>
                     <img id="dream-bubble-photo" class="dream-bubble-photo" alt="" />
                 </div>
                 <!-- Thought bubble dots -->
                 <div class="thought-dots" aria-hidden="true">
-                    <div class="thought-dot" style="width:14px;height:14px;"></div>
-                    <div class="thought-dot" style="width:9px;height:9px;"></div>
-                    <div class="thought-dot" style="width:5px;height:5px;"></div>
+                    <div class="thought-dot"></div>
+                    <div class="thought-dot"></div>
+                    <div class="thought-dot"></div>
                 </div>
-                <!-- Person in bed SVG -->
-                <div class="person-svg-container" aria-hidden="true">
-                    <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                <!-- Person in bed SVG (viewBox cropped to the artwork — the
+                     original had ~43% empty space above the headboard) -->
+                <div class="person-figure">
+                    <span class="person-label font-hand">this is me</span>
+                    <div class="person-svg-container" aria-hidden="true">
+                    <svg viewBox="0 52 128 74" xmlns="http://www.w3.org/2000/svg">
                         <path d="M27.85 105.5h-19V54.94c5.08 0 14.99 4.12 14.99 4.12c2.41.89 4.01 3.18 4.01 5.75v40.69z" fill="#a65f3e"/>
                         <path d="M26.38 95.5V83.06c-2.16.11-9.13.76-10.88 2.02c-3.38 2.42-2.5 6.74-2.52 10.42h13.4z" fill="#784d30"/>
                         <path d="M121.91 105.43H12.98V58.99c0-2.24-1.82-4.06-4.06-4.06s-4.06 1.82-4.06 4.06v64.9h6l4.8-9.58h96.7l4.8 9.58h6v-17.22c-.01-.68-.56-1.24-1.25-1.24z" fill="#c87d5e"/>
@@ -802,9 +907,10 @@
                             <path d="M41.92 81.42s2.26-.57 6.06-.54c2.84.02 5.19 1.41 5.19 1.41c-5.47 9.58-6.41 19.56-6.59 22.17c-.09 1.3-.48 1.31-1.71.91l-7.2-2.05c-1.43-.6-1.67-1.54-1.67-2.62c0-11.7 5.92-19.28 5.92-19.28z" fill="#7dbbe3"/>
                         </g>
                     </svg>
+                    </div>
                 </div>
                 <p class="font-hand dream-caption">
-                    someone's been dreaming about you...
+                    dreaming about you...
                 </p>
             </div>
         </div>
@@ -816,9 +922,41 @@
 
         <!-- Decorative Floral Divider Top -->
         <div class="reveal-element divider-top">
-            <svg width="120" height="30" viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M10 15 H50 M70 15 H110" stroke="#8d6e63" stroke-width="1" stroke-dasharray="3 3"/>
-                <path d="M60 8 C63 2, 67 2, 70 8 C75 10, 75 15, 70 17 C67 23, 63 23, 60 17 C55 15, 55 10, 60 8 Z" fill="#bcaaa4"/>
+            <svg class="floral-divider" width="240" height="38" viewBox="0 0 240 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                    <linearGradient id="divRuleL" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0" stop-color="#a98f78" stop-opacity="0"/>
+                        <stop offset="1" stop-color="#a98f78" stop-opacity="0.95"/>
+                    </linearGradient>
+                    <linearGradient id="divRuleR" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0" stop-color="#a98f78" stop-opacity="0.95"/>
+                        <stop offset="1" stop-color="#a98f78" stop-opacity="0"/>
+                    </linearGradient>
+                </defs>
+
+                <path d="M10 19 H66" stroke="url(#divRuleL)" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M174 19 H230" stroke="url(#divRuleR)" stroke-width="1.2" stroke-linecap="round"/>
+
+                <!-- leaves, mirrored either side -->
+                <path d="M90 19 C83 10, 73 9, 68 13 C73 19, 83 21, 90 19 Z" fill="#c4ab93"/>
+                <path d="M90 19 C83 28, 73 29, 68 25 C73 19, 83 17, 90 19 Z" fill="#b39a82"/>
+                <path d="M150 19 C157 10, 167 9, 172 13 C167 19, 157 21, 150 19 Z" fill="#c4ab93"/>
+                <path d="M150 19 C157 28, 167 29, 172 25 C167 19, 157 17, 150 19 Z" fill="#b39a82"/>
+
+                <circle cx="96" cy="19" r="2.6" fill="#bda78f"/>
+                <circle cx="144" cy="19" r="2.6" fill="#bda78f"/>
+
+                <!-- five-petal flower -->
+                <g transform="translate(120 19)">
+                    <g fill="#c9ab8e">
+                        <ellipse cx="0" cy="-7.6" rx="3.7" ry="6.2"/>
+                        <g transform="rotate(72)"><ellipse cx="0" cy="-7.6" rx="3.7" ry="6.2"/></g>
+                        <g transform="rotate(144)"><ellipse cx="0" cy="-7.6" rx="3.7" ry="6.2"/></g>
+                        <g transform="rotate(216)"><ellipse cx="0" cy="-7.6" rx="3.7" ry="6.2"/></g>
+                        <g transform="rotate(288)"><ellipse cx="0" cy="-7.6" rx="3.7" ry="6.2"/></g>
+                    </g>
+                    <circle r="3.1" fill="#a3762f" opacity="0.85"/>
+                </g>
             </svg>
         </div>
 
@@ -1042,6 +1180,7 @@
     <!-- Acrostic reveal overlay -->
     <div id="acrostic-overlay" role="dialog" aria-modal="true" aria-labelledby="acrostic-text" tabindex="-1">
         <div id="acrostic-card">
+            <button id="acrostic-close-btn" type="button" class="acrostic-close fade-target collapsible" aria-label="Close">&times;</button>
             <p class="acrostic-text font-poem" id="acrostic-text">
                 <span class="acrostic-word"><span class="target-letter" data-target="0">C</span><span class="target-letter" data-target="1">A</span><span class="target-letter" data-target="2">N</span></span>
                 <span class="acrostic-word"><span class="target-letter" data-target="3">I</span></span>
@@ -1079,6 +1218,41 @@
         function wait(ms) {
             return new Promise(function (resolve) { setTimeout(resolve, ms); });
         }
+
+        /* ============================================================
+           Session module — remembers the selfie for an hour so a refresh
+           (including the "give me some time" one) skips the camera step
+           ============================================================ */
+        var Session = (function () {
+            var KEY = 'letter-to-you:v1';
+            var TTL_MS = 60 * 60 * 1000; // 1 hour
+
+            function save(photoUrl) {
+                try {
+                    localStorage.setItem(KEY, JSON.stringify({ photo: photoUrl, at: Date.now() }));
+                } catch (err) {
+                    // Private mode or quota — the flow still works, just isn't remembered.
+                }
+            }
+
+            function load() {
+                try {
+                    var raw = localStorage.getItem(KEY);
+                    if (!raw) return null;
+                    var data = JSON.parse(raw);
+                    if (!data || !data.photo || !data.at) return null;
+                    if (Date.now() - data.at > TTL_MS) {
+                        localStorage.removeItem(KEY);
+                        return null;
+                    }
+                    return data;
+                } catch (err) {
+                    return null;
+                }
+            }
+
+            return { save: save, load: load };
+        })();
 
         /* ============================================================
            Camera module — permission, capture, review, error handling
@@ -1405,13 +1579,17 @@
             var timePanel = document.getElementById('acrostic-time-panel');
             var timeBtn = document.getElementById('acrostic-time-btn');
             var okaySign = document.getElementById('acrostic-okay');
+            var closeBtn = document.getElementById('acrostic-close-btn');
             var reply = document.getElementById('acrostic-reply');
 
             var REVEAL_DELAY_MS = 6000;
-            var STAGGER_MS = 260;
-            var FLIGHT_MS = 950;
-            var SETTLE_MS = 800;
-            var PAUSE_MS = 450;
+            // One letter at a time: highlight → lift and travel → settle → next.
+            var HIGHLIGHT_MS = 650;   // glow on the source letter before it lifts
+            var FLIGHT_MS = 1150;     // travel time into the card
+            var LAND_MS = 320;        // beat after it settles into place
+            var SETTLE_MS = 800;      // scroll-settle fallback
+            var READ_MS = 900;        // beat after scrolling, to read the stanza
+            var PAUSE_MS = 500;       // beat between stanzas
 
             var NUDGE_MESSAGES = [
                 'Are you sure? 🥺',
@@ -1451,6 +1629,7 @@
             var onYes = function () {};
             var running = false;
             var finished = false;
+            var answered = false;
             var groups = [];
 
             function getGroups() {
@@ -1507,51 +1686,67 @@
                 return new Promise(function (resolve) {
                     if (!source || !target) { resolve(); return; }
 
-                    var srcRect = source.getBoundingClientRect();
-                    var srcStyle = window.getComputedStyle(source);
-                    var tgtRect = target.getBoundingClientRect();
-                    var tgtStyle = window.getComputedStyle(target);
-
-                    var clone = document.createElement('div');
-                    clone.className = 'flying-letter-clone';
-                    clone.textContent = source.textContent;
-                    clone.style.fontFamily = srcStyle.fontFamily;
-                    clone.style.fontSize = srcStyle.fontSize;
-                    clone.style.fontWeight = srcStyle.fontWeight;
-                    clone.style.color = srcStyle.color;
-                    clone.style.transform = 'translate(' + srcRect.left + 'px, ' + srcRect.top + 'px)';
-                    document.body.appendChild(clone);
-
-                    source.classList.add('is-flying');
-
-                    var dx = tgtRect.left - srcRect.left;
-                    var dy = tgtRect.top - srcRect.top;
-
-                    requestAnimationFrame(function () {
-                        requestAnimationFrame(function () {
-                            clone.style.transform = 'translate(' + (srcRect.left + dx) + 'px, ' + (srcRect.top + dy) + 'px) scale(1.15)';
-                            clone.style.fontFamily = tgtStyle.fontFamily;
-                            clone.style.fontSize = tgtStyle.fontSize;
-                            clone.style.color = tgtStyle.color;
-                        });
-                    });
+                    // Beat 1 — glow in place, so she can see which letter is
+                    // about to leave and still read the line it came from.
+                    source.classList.add('is-highlighted');
 
                     setTimeout(function () {
-                        target.classList.add('landed');
-                        clone.remove();
-                        source.classList.remove('is-flying');
-                        resolve();
-                    }, FLIGHT_MS);
+                        if (finished) { source.classList.remove('is-highlighted'); resolve(); return; }
+
+                        var srcRect = source.getBoundingClientRect();
+                        var srcStyle = window.getComputedStyle(source);
+                        var tgtRect = target.getBoundingClientRect();
+                        var tgtStyle = window.getComputedStyle(target);
+
+                        // Clone inherits the highlighted colour, so the lift-off
+                        // reads as the same letter continuing its movement.
+                        var clone = document.createElement('div');
+                        clone.className = 'flying-letter-clone';
+                        clone.textContent = source.textContent;
+                        clone.style.fontFamily = srcStyle.fontFamily;
+                        clone.style.fontSize = srcStyle.fontSize;
+                        clone.style.fontWeight = srcStyle.fontWeight;
+                        clone.style.color = srcStyle.color;
+                        clone.style.setProperty('--fly-x', srcRect.left + 'px');
+                        clone.style.setProperty('--fly-y', srcRect.top + 'px');
+                        clone.style.setProperty('--fly-dx', (tgtRect.left - srcRect.left) + 'px');
+                        clone.style.setProperty('--fly-dy', (tgtRect.top - srcRect.top) + 'px');
+                        clone.style.setProperty('--fly-ms', FLIGHT_MS + 'ms');
+                        document.body.appendChild(clone);
+
+                        source.classList.remove('is-highlighted');
+                        source.classList.add('is-flying');
+
+                        // Beat 2 — lift, swell, and travel into the card.
+                        requestAnimationFrame(function () {
+                            requestAnimationFrame(function () {
+                                clone.classList.add('is-launched');
+                                clone.style.fontFamily = tgtStyle.fontFamily;
+                                clone.style.fontSize = tgtStyle.fontSize;
+                                clone.style.color = tgtStyle.color;
+                            });
+                        });
+
+                        setTimeout(function () {
+                            target.classList.add('landed');
+                            clone.remove();
+                            source.classList.remove('is-flying');
+                            resolve();
+                        }, FLIGHT_MS);
+                    }, HIGHLIGHT_MS);
                 });
             }
 
-            function flyGroup(group) {
-                return Promise.all(group.map(function (source, i) {
-                    return wait(i * STAGGER_MS).then(function () {
-                        var target = document.querySelector('[data-target="' + source.dataset.acrostic + '"]');
-                        return flyLetter(source, target);
-                    });
-                }));
+            // Strictly sequential — each letter finishes landing before the
+            // next one is highlighted, so the sentence builds one at a time.
+            async function flyGroup(group) {
+                for (var i = 0; i < group.length; i++) {
+                    if (finished) return;
+                    var source = group[i];
+                    var target = document.querySelector('[data-target="' + source.dataset.acrostic + '"]');
+                    await flyLetter(source, target);
+                    await wait(LAND_MS);
+                }
             }
 
             function fadeGroupInstant(group) {
@@ -1581,22 +1776,28 @@
                 }, 400);
             }
 
-            function closeOverlay() {
+            // Dismiss without re-arming — used once she has already answered.
+            function dismissOverlay() {
                 overlay.classList.remove('is-active', 'is-final');
                 document.removeEventListener('keydown', onKeydown);
                 scrollLockActive = false;
                 running = false;
+            }
+
+            function closeOverlay() {
+                dismissOverlay();
 
                 noCount = 0;
                 lastNudgeIndex = -1;
+                answered = false;
                 question.classList.remove('is-shown');
                 hideEl(actions);
                 hideEl(nudge);
                 hideEl(timePanel);
                 hideEl(okaySign);
+                hideEl(closeBtn);
                 hideEl(reply);
 
-                revealBtn.classList.remove('btn-hidden');
                 revealBtn.disabled = false;
                 revealBtn.classList.add('is-shown');
                 revealBtn.focus();
@@ -1605,7 +1806,8 @@
             function onKeydown(e) {
                 if (e.key === 'Escape') {
                     e.preventDefault();
-                    closeOverlay();
+                    if (answered) dismissOverlay();
+                    else closeOverlay();
                     return;
                 }
                 if (e.key === 'Tab') {
@@ -1630,7 +1832,9 @@
             function skipToFinal() {
                 document.querySelectorAll('.target-letter').forEach(function (el) { el.classList.add('landed'); });
                 document.querySelectorAll('.flying-letter-clone').forEach(function (el) { el.remove(); });
-                document.querySelectorAll('.acrostic-source-letter.is-flying').forEach(function (el) { el.classList.remove('is-flying'); });
+                document.querySelectorAll('.acrostic-source-letter').forEach(function (el) {
+                    el.classList.remove('is-flying', 'is-highlighted');
+                });
                 scrollLockActive = false;
                 finalizeOverlay();
             }
@@ -1647,6 +1851,8 @@
                         await fadeGroupInstant(group);
                     } else {
                         await scrollToCenter(stanza);
+                        await wait(READ_MS);
+                        if (finished) return;
                         await flyGroup(group);
                         await wait(PAUSE_MS);
                     }
@@ -1686,6 +1892,7 @@
                 });
 
                 yesBtn.addEventListener('click', function () {
+                    answered = true;
                     hideEl(actions);
                     hideEl(nudge);
                     hideEl(timePanel);
@@ -1694,7 +1901,10 @@
                         reply.textContent = "Yay!! I'm smiling so hard right now.";
                         showEl(reply);
                     }
+                    showEl(closeBtn);
                 });
+
+                closeBtn.addEventListener('click', dismissOverlay);
 
                 noBtn.addEventListener('click', function () {
                     noCount++;
@@ -1732,18 +1942,36 @@
            Wire it together
            ============================================================ */
         document.addEventListener('DOMContentLoaded', function () {
+            var cameraIntro = document.getElementById('camera-intro');
+            var poemMain = document.getElementById('poem-main');
+            var dreamPhoto = document.getElementById('dream-bubble-photo');
+            var dreamSection = document.getElementById('dream-bubble-section');
+
+            function startLetter() {
+                Ambient.init();
+                Acrostic.init({ onYes: function () { Ambient.heartBurst(24); } });
+            }
+
+            // Coming back within the hour — straight to the letter, no camera,
+            // no zoom replay.
+            var saved = Session.load();
+            if (saved) {
+                cameraIntro.style.display = 'none';
+                poemMain.style.display = '';
+                dreamPhoto.src = saved.photo;
+                dreamSection.classList.add('no-transition', 'is-visible');
+                requestAnimationFrame(function () {
+                    dreamSection.classList.remove('no-transition');
+                });
+                startLetter();
+                return;
+            }
+
             Camera.init({
                 onContinue: function (photoUrl) {
-                    var poemMain = document.getElementById('poem-main');
-                    var dreamPhoto = document.getElementById('dream-bubble-photo');
-                    var dreamSection = document.getElementById('dream-bubble-section');
-
+                    Session.save(photoUrl);
                     poemMain.style.display = '';
-
-                    Transition.run(photoUrl, dreamPhoto, dreamSection, function () {
-                        Ambient.init();
-                        Acrostic.init({ onYes: function () { Ambient.heartBurst(24); } });
-                    });
+                    Transition.run(photoUrl, dreamPhoto, dreamSection, startLetter);
                 }
             });
         });
