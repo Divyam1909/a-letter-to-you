@@ -176,6 +176,14 @@
             z-index: 0;
         }
 
+        /* Above the acrostic overlay so it rains over the card too. */
+        .confetti-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            pointer-events: none;
+        }
+
         .floating-heart {
             position: absolute;
             bottom: -50px;
@@ -214,13 +222,15 @@
             transition: opacity 0.3s ease, color 0.35s ease,
                         background-color 0.35s ease, text-shadow 0.35s ease;
         }
-        /* Highlight beat before lift-off. Colour/shadow/background only —
-           anything affecting metrics would reflow the poem line. */
+        /* Highlight beat before lift-off. Bolded via text-stroke rather than
+           font-weight — a real weight change alters glyph advance and would
+           reflow the whole poem line underneath. */
         .acrostic-source-letter.is-highlighted {
             color: var(--accent-strong);
             background-color: rgba(201, 141, 61, 0.32);
             border-radius: 3px;
             text-shadow: 0 0 12px rgba(168, 99, 47, 0.55);
+            -webkit-text-stroke: 0.7px currentColor;
         }
         .acrostic-source-letter.is-flying { opacity: 0.15; }
 
@@ -237,25 +247,22 @@
             left: 0;
             z-index: 60;
             pointer-events: none;
+            font-weight: 700;
             transform: translate(var(--fly-x, 0px), var(--fly-y, 0px));
-            transition: font-size 1.15s ease, color 1.15s ease;
+            transition: font-size var(--fly-ms, 560ms) ease,
+                        color var(--fly-ms, 560ms) ease;
             will-change: transform;
         }
-        /* Swells mid-flight, then settles back to size as it lands. */
+        /* Single uninterrupted run to the card. An intermediate keyframe made
+           the easing settle at the midpoint, which read as a stall. */
         .flying-letter-clone.is-launched {
-            animation: letterFly var(--fly-ms, 1150ms) cubic-bezier(0.5, 0, 0.35, 1) forwards;
+            animation: letterFly var(--fly-ms, 560ms) cubic-bezier(0.4, 0, 0.3, 1) forwards;
         }
         @keyframes letterFly {
-            0% {
-                transform: translate(var(--fly-x), var(--fly-y)) scale(1);
+            from {
+                transform: translate(var(--fly-x), var(--fly-y)) scale(1.28);
             }
-            45% {
-                transform: translate(
-                    calc(var(--fly-x) + var(--fly-dx) * 0.45),
-                    calc(var(--fly-y) + var(--fly-dy) * 0.45)
-                ) scale(1.6);
-            }
-            100% {
+            to {
                 transform: translate(
                     calc(var(--fly-x) + var(--fly-dx)),
                     calc(var(--fly-y) + var(--fly-dy))
@@ -1568,6 +1575,106 @@
         })();
 
         /* ============================================================
+           Confetti module — celebratory burst on "Yes"
+           ============================================================ */
+        var Confetti = (function () {
+            var COLORS = ['#c9822f', '#a8632f', '#d4a373', '#bc6c25', '#c25b5b', '#e0c9a6', '#8d6e63'];
+            var canvas = null, ctx = null, raf = null;
+            var particles = [];
+
+            function resize() {
+                if (!canvas) return;
+                var dpr = Math.min(window.devicePixelRatio || 1, 2);
+                canvas.width = window.innerWidth * dpr;
+                canvas.height = window.innerHeight * dpr;
+                canvas.style.width = window.innerWidth + 'px';
+                canvas.style.height = window.innerHeight + 'px';
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            }
+
+            function ensureCanvas() {
+                if (canvas) return;
+                canvas = document.createElement('canvas');
+                canvas.className = 'confetti-canvas';
+                canvas.setAttribute('aria-hidden', 'true');
+                document.body.appendChild(canvas);
+                ctx = canvas.getContext('2d');
+                resize();
+                window.addEventListener('resize', resize);
+            }
+
+            function teardown() {
+                if (raf) cancelAnimationFrame(raf);
+                raf = null;
+                if (canvas) {
+                    window.removeEventListener('resize', resize);
+                    canvas.remove();
+                    canvas = null;
+                    ctx = null;
+                }
+            }
+
+            // Seeded across the full width and staggered above the viewport so
+            // the fall reads as continuous rather than one clump.
+            function spawn(count) {
+                var w = window.innerWidth;
+                var h = window.innerHeight;
+                for (var i = 0; i < count; i++) {
+                    particles.push({
+                        x: Math.random() * w,
+                        y: -20 - Math.random() * h * 0.6,
+                        w: 5 + Math.random() * 7,
+                        h: 7 + Math.random() * 9,
+                        color: COLORS[(Math.random() * COLORS.length) | 0],
+                        vx: -1.1 + Math.random() * 2.2,
+                        vy: 1.8 + Math.random() * 2.6,
+                        rot: Math.random() * Math.PI * 2,
+                        vr: -0.14 + Math.random() * 0.28,
+                        sway: Math.random() * Math.PI * 2
+                    });
+                }
+            }
+
+            function frame() {
+                var w = window.innerWidth;
+                var h = window.innerHeight;
+                ctx.clearRect(0, 0, w, h);
+
+                for (var i = particles.length - 1; i >= 0; i--) {
+                    var p = particles[i];
+                    p.sway += 0.05;
+                    p.x += p.vx + Math.sin(p.sway) * 0.9;
+                    p.y += p.vy;
+                    p.vy += 0.035;
+                    p.rot += p.vr;
+
+                    if (p.y > h + 40) { particles.splice(i, 1); continue; }
+
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                    ctx.restore();
+                }
+
+                if (particles.length) raf = requestAnimationFrame(frame);
+                else teardown();
+            }
+
+            function burst() {
+                if (reducedMotion) return;
+                ensureCanvas();
+                spawn(90);
+                setTimeout(function () { if (canvas) spawn(70); }, 400);
+                setTimeout(function () { if (canvas) spawn(55); }, 850);
+                if (!raf) raf = requestAnimationFrame(frame);
+            }
+
+            return { burst: burst };
+        })();
+
+        /* ============================================================
            Acrostic module — scroll-and-lift climax
            ============================================================ */
         var Acrostic = (function () {
@@ -1589,12 +1696,12 @@
 
             var REVEAL_DELAY_MS = 6000;
             // One letter at a time: highlight → lift and travel → settle → next.
-            var HIGHLIGHT_MS = 650;   // glow on the source letter before it lifts
-            var FLIGHT_MS = 1150;     // travel time into the card
-            var LAND_MS = 320;        // beat after it settles into place
-            var SETTLE_MS = 800;      // scroll-settle fallback
-            var READ_MS = 900;        // beat after scrolling, to read the stanza
-            var PAUSE_MS = 500;       // beat between stanzas
+            var HIGHLIGHT_MS = 340;   // glow on the source letter before it lifts
+            var FLIGHT_MS = 560;      // travel time into the card
+            var LAND_MS = 120;        // beat after it settles into place
+            var SETTLE_MS = 650;      // scroll-settle fallback
+            var READ_MS = 550;        // beat after scrolling, to read the stanza
+            var PAUSE_MS = 300;       // beat between stanzas
 
             var NUDGE_MESSAGES = [
                 'Are you sure? 🥺',
@@ -1710,7 +1817,6 @@
                         clone.textContent = source.textContent;
                         clone.style.fontFamily = srcStyle.fontFamily;
                         clone.style.fontSize = srcStyle.fontSize;
-                        clone.style.fontWeight = srcStyle.fontWeight;
                         clone.style.color = srcStyle.color;
                         clone.style.setProperty('--fly-x', srcRect.left + 'px');
                         clone.style.setProperty('--fly-y', srcRect.top + 'px');
@@ -1954,7 +2060,12 @@
 
             function startLetter() {
                 Ambient.init();
-                Acrostic.init({ onYes: function () { Ambient.heartBurst(24); } });
+                Acrostic.init({
+                    onYes: function () {
+                        Confetti.burst();
+                        Ambient.heartBurst(24);
+                    }
+                });
             }
 
             // Coming back within the hour — straight to the letter, no camera,
