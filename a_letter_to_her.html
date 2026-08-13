@@ -601,27 +601,28 @@
 
         .person-label {
             position: absolute;
-            left: 56%;
-            top: -2px;
+            left: 82px;
+            top: -4px;
             font-size: var(--text-base);
             color: var(--ink-soft);
             white-space: nowrap;
             transform: rotate(-4deg);
             z-index: 2;
         }
-        /* Short leader line angling down-left toward the sleeper's head. */
-        .person-label::before {
-            content: '';
+
+        /* Leader drawn as SVG in the same coordinate space as the figure
+           (150 x 87), so it lands on the sleeper's head exactly. */
+        .person-leader {
             position: absolute;
-            left: -21px;
-            top: 15px;
-            width: 22px;
-            height: 1.5px;
-            border-radius: 1px;
-            background: var(--dream-line);
-            transform: rotate(28deg);
-            transform-origin: right center;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            pointer-events: none;
+            z-index: 2;
         }
+        .person-leader path { stroke: var(--dream-line); }
+        .person-leader circle { fill: var(--dream-line); }
 
         .person-svg-container {
             width: 150px;
@@ -879,6 +880,10 @@
                      original had ~43% empty space above the headboard) -->
                 <div class="person-figure">
                     <span class="person-label font-hand">this is me</span>
+                    <svg class="person-leader" viewBox="0 0 150 87" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M77 13 C65 16, 54 21, 47 28" stroke-width="1.6" stroke-linecap="round"/>
+                        <circle cx="45.2" cy="29.6" r="2.2"/>
+                    </svg>
                     <div class="person-svg-container" aria-hidden="true">
                     <svg viewBox="0 52 128 74" xmlns="http://www.w3.org/2000/svg">
                         <path d="M27.85 105.5h-19V54.94c5.08 0 14.99 4.12 14.99 4.12c2.41.89 4.01 3.18 4.01 5.75v40.69z" fill="#a65f3e"/>
